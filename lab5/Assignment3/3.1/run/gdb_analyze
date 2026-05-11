@@ -1,0 +1,81 @@
+# ============================================================
+# GDB 批处理脚本 — 自动化线程切换分析
+# 用法: gdb -batch -x gdb_analyze
+# ============================================================
+set pagination off
+set confirm off
+target remote :1234
+file ../build/kernel.o
+
+# 断点
+break first_thread
+break c_time_interrupt_handler
+break asm_switch_thread
+# 在 asm_switch_thread 的 ret 指令处也设断点（观察切换完成）
+break *(asm_switch_thread + 22)
+
+set $clock_hits = 0
+set $switch_hits = 0
+
+# BP1: 新线程首次执行
+commands 1
+  silent
+  printf "\n===== [BP1] first_thread ENTRY =====\n"
+  set $r = programManager.running
+  printf "PCB: pid=%d name=%s status=%d priority=%d\n", $r->pid, $r->name, $r->status, $r->priority
+  printf "Regs: eip=0x%x esp=0x%x ebp=0x%x\n", $eip, $esp, $ebp
+  printf "Stack (new thread, top 6 words):\n"
+  x/6x $esp
+  continue
+end
+
+# BP2: 时钟中断
+commands 2
+  silent
+  set $clock_hits = $clock_hits + 1
+  if $clock_hits > 5
+    continue
+  end
+  set $cur = programManager.running
+  printf "\n--- [BP2] CLOCK #%d: pid=%d ticks=%d ticksPassed=%d ---\n", $clock_hits, $cur->pid, $cur->ticks, $cur->ticksPassedBy
+  continue
+end
+
+# BP3: asm_switch_thread 入口 — 4个push之前
+commands 3
+  silent
+  set $switch_hits = $switch_hits + 1
+  if $switch_hits > 6
+    continue
+  end
+  printf "\n===== [BP3] asm_switch_thread #%d ENTRY =====\n", $switch_hits
+  # 在入口处, [esp]=ret_addr, [esp+4]=cur, [esp+8]=next
+  set $cur = *(int*)($esp + 4)
+  set $next = *(int*)($esp + 8)
+  printf "cur(PCB*)=0x%x  next(PCB*)=0x%x\n", $cur, $next
+  if $cur != 0
+    printf "cur->stack=0x%x\n", *(int*)$cur
+  end
+  if $next != 0
+    printf "next->stack=0x%x\n", *(int*)$next
+  end
+  continue
+end
+
+# BP4: asm_switch_thread 末尾(ret前) — 栈已切换，寄存器已恢复
+commands 4
+  silent
+  printf ">>> [BP4] asm_switch_thread ABOUT TO RET (switched) <<<\n"
+  printf "esp=0x%x ebp=0x%x esi=0x%x edi=0x%x ebx=0x%x\n", $esp, $ebp, $esi, $edi, $ebx
+  set $retaddr = *(int*)$esp
+  printf "ret addr on stack = 0x%x\n", $retaddr
+  set $r = programManager.running
+  printf "Now running: pid=%d name=%s\n", $r->pid, $r->name
+  continue
+end
+
+printf "=== Auto thread-switch analysis ===\n"
+printf "Observing: first_thread -> clock int -> asm_switch_thread\n"
+continue
+
+

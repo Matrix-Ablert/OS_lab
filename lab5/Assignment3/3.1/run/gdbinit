@@ -1,0 +1,63 @@
+# ============================================================
+# GDB 调试脚本 — 跟踪线程切换全过程
+# 用法: 在 build 目录下执行 make debug
+# ============================================================
+
+target remote :1234
+file ../build/kernel.o
+set disassembly-flavor intel
+
+# ============================================================
+# 断点设置
+# ============================================================
+
+# BP1: 时钟中断C处理函数 — ticks递减，归零触发调度
+break c_time_interrupt_handler
+
+# BP2: 调度器入口 — cur回队、选next
+break ProgramManager::schedule
+
+# BP3: 上下文切换汇编入口 (push ebp/ebx/edi/esi → 保存 → 切换栈 → pop恢复)
+break asm_switch_thread
+
+# BP4: 新线程首次被调度执行
+break first_thread
+
+# ============================================================
+# 自动显示 — 每次停下时输出关键信息
+# ============================================================
+define hook-stop
+  printf "\n====== BREAK at 0x%x ======\n", $eip
+  printf "Regs: eax=%08x ebx=%08x ecx=%08x edx=%08x\n", $eax, $ebx, $ecx, $edx
+  printf "      esi=%08x edi=%08x ebp=%08x esp=%08x\n", $esi, $edi, $ebp, $esp
+  printf "      eip=%08x\n", $eip
+  printf "Stack top: "
+  x/6x $esp
+end
+
+# ============================================================
+# 自定义快捷命令
+# ============================================================
+define pcb
+  set $r = programManager.running
+  if $r != 0
+    printf "PCB: pid=%d name=\"%s\" status=%d pri=%d ticks=%d stack=%p\n", $r->pid, $r->name, $r->status, $r->priority, $r->ticks, $r->stack
+    if $r->stack != 0
+      printf "  saved_esp = 0x%x\n", *$r->stack
+    end
+  end
+end
+
+define readyq
+  printf "ReadyQ: %d threads\n", programManager.readyPrograms.size()
+end
+
+define showstack
+  printf "--- Stack (32 words) ---\n"
+  x/32x $esp
+end
+
+# ============================================================
+printf "=== GDB ready (breakpoints: c_time_interrupt_handler,\n"
+printf "    schedule, asm_switch_thread, first_thread) ===\n"
+printf "Type 'continue' to start the kernel.\n"

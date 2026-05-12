@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420" font-family="monospace" font-size="13">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2980b9"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#27ae60"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="120" y="22" font-size="16" font-weight="bold" fill="#2c3e50">图1: 新创建未执行线程的栈布局</text>
+  <text x="145" y="40" font-size="11" fill="#7f8c8d">(executeThread 初始化后, asm_switch_thread 第一次切换到此线程)</text>
+
+  <!-- PCB page outline -->
+  <rect x="40" y="55" width="180" height="345" rx="4" fill="none" stroke="#bdc3c7" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="60" y="72" font-size="10" fill="#95a5a6">PCB 页 (4096 bytes)</text>
+
+  <!-- High address marker -->
+  <line x1="230" y1="65" x2="250" y2="65" stroke="#7f8c8d" stroke-width="1"/>
+  <text x="255" y="69" font-size="10" fill="#7f8c8d">高地址 (PCB基址+4096)</text>
+
+  <!-- Stack grows downward arrow -->
+  <line x1="230" y1="390" x2="270" y2="390" stroke="#7f8c8d" stroke-width="1"/>
+  <text x="275" y="387" font-size="10" fill="#e74c3c">▼ 栈增长方向</text>
+
+  <!-- Stack boxes -->
+  <!-- stack[6]: parameter -->
+  <rect x="55" y="80" width="150" height="40" rx="2" fill="#eaf2f8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="65" y="96" font-size="11" fill="#2c3e50">stack[6] = parameter</text>
+  <text x="65" y="111" font-size="10" fill="#7f8c8d">(void *arg = nullptr)</text>
+
+  <!-- stack[5]: program_exit -->
+  <rect x="55" y="125" width="150" height="40" rx="2" fill="#eaf2f8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="65" y="141" font-size="11" fill="#2c3e50">stack[5] = program_exit</text>
+  <text x="65" y="156" font-size="10" fill="#7f8c8d">(线程返回后自动执行)</text>
+
+  <!-- Green annotation for ret/later -->
+  <text x="220" y="148" font-size="10" fill="#27ae60">← 函数ret时eip跳转目标 🟢</text>
+
+  <!-- stack[4]: function -->
+  <rect x="55" y="170" width="150" height="40" rx="2" fill="#fdebd0" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="65" y="186" font-size="11" fill="#2c3e50">stack[4] = function</text>
+  <text x="65" y="201" font-size="10" fill="#7f8c8d">(线程入口地址)</text>
+
+  <!-- Red annotation -->
+  <text x="220" y="193" font-size="10" fill="#e74c3c">← asm_switch的ret弹出 → eip 🔴</text>
+
+  <!-- stack[3]: esi -->
+  <rect x="55" y="215" width="150" height="30" rx="2" fill="#f4f6f6" stroke="#bdc3c7" stroke-width="1"/>
+  <text x="65" y="234" font-size="11" fill="#2c3e50">stack[3] = 0 (esi初值)</text>
+
+  <!-- stack[2]: edi -->
+  <rect x="55" y="248" width="150" height="30" rx="2" fill="#f4f6f6" stroke="#bdc3c7" stroke-width="1"/>
+  <text x="65" y="267" font-size="11" fill="#2c3e50">stack[2] = 0 (edi初值)</text>
+
+  <!-- stack[1]: ebx -->
+  <rect x="55" y="281" width="150" height="30" rx="2" fill="#f4f6f6" stroke="#bdc3c7" stroke-width="1"/>
+  <text x="65" y="300" font-size="11" fill="#2c3e50">stack[1] = 0 (ebx初值)</text>
+
+  <!-- stack[0]: ebp -->
+  <rect x="55" y="314" width="150" height="30" rx="2" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="65" y="333" font-size="11" fill="#2c3e50">stack[0] = 0 (ebp初值)</text>
+
+  <!-- esp pointer -->
+  <text x="220" y="332" font-size="10" fill="#e74c3c">← 🔴 esp = thread→stack</text>
+
+  <!-- pop sequence bracket -->
+  <line x1="50" y1="348" x2="50" y2="214" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="30" y="285" font-size="9" fill="#8e44ad" transform="rotate(-90, 30, 285)">pop 顺序 →</text>
+  <text x="8" y="265" font-size="9" fill="#8e44ad">4个pop</text>
+
+  <!-- Free stack space -->
+  <rect x="55" y="348" width="150" height="45" rx="2" fill="#f9ebea" stroke="#e74c3c" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="65" y="365" font-size="10" fill="#e74c3c">空闲栈空间</text>
+  <text x="65" y="382" font-size="9" fill="#c0392b">(线程运行时向下增长)</text>
+
+  <!-- Low address -->
+  <text x="55" y="408" font-size="10" fill="#7f8c8d">低地址 (PCB基址)</text>
+
+  <!-- Ret sequence explanation on the right -->
+  <rect x="280" y="80" width="225" height="130" rx="4" fill="#fef9e7" stroke="#f39c12" stroke-width="1"/>
+  <text x="295" y="100" font-size="12" font-weight="bold" fill="#e67e22">asm_switch_thread 执行序列:</text>
+  <text x="295" y="120" font-size="10" fill="#2c3e50">1. mov esp, [next→stack]</text>
+  <text x="295" y="138" font-size="10" fill="#2c3e50">   → esp = &amp;stack[0]</text>
+  <text x="295" y="158" font-size="10" fill="#2c3e50">2. pop esi,edi,ebx,ebp (4次)</text>
+  <text x="295" y="176" font-size="10" fill="#2c3e50">   → 恢复初值0, esp上移16B</text>
+  <text x="295" y="196" font-size="10" fill="#2c3e50">3. ret → eip = stack[4] = function</text>
+
+  <!-- After ret state -->
+  <rect x="280" y="225" width="225" height="100" rx="4" fill="#eafaf1" stroke="#27ae60" stroke-width="1"/>
+  <text x="295" y="245" font-size="12" font-weight="bold" fill="#27ae60">ret 后线程启动状态:</text>
+  <text x="295" y="265" font-size="10" fill="#2c3e50">eip = function (线程入口)</text>
+  <text x="295" y="283" font-size="10" fill="#2c3e50">esp = &amp;stack[5] (指向program_exit)</text>
+  <text x="295" y="301" font-size="10" fill="#2c3e50">ebp = 0 (初始值)</text>
+  <text x="295" y="319" font-size="10" fill="#2c3e50">函数返回时ret → program_exit</text>
+</svg>

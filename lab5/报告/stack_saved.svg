@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 540" font-family="monospace" font-size="12">
+  <defs>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2980b9"/>
+    </marker>
+  </defs>
+
+  <text x="80" y="20" font-size="16" font-weight="bold" fill="#2c3e50">图2: 被中断后保存了上下文的线程栈</text>
+  <text x="70" y="38" font-size="11" fill="#7f8c8d">(时钟中断 → c_time_interrupt_handler → schedule → asm_switch_thread 保存 cur→stack)</text>
+
+  <!-- === Section: Thread's own stack === -->
+  <rect x="30" y="50" width="200" height="35" rx="2" fill="#f4f6f6" stroke="#bdc3c7" stroke-width="1"/>
+  <text x="45" y="67" font-size="10" fill="#7f8c8d">线程自己的调用帧</text>
+  <text x="45" y="81" font-size="9" fill="#95a5a6">(函数局部变量/调用链)</text>
+
+  <!-- === Section: Hardware interrupt frame === -->
+  <rect x="30" y="90" width="200" height="18" rx="2" fill="#f9ebea" stroke="#e74c3c" stroke-width="1"/>
+  <text x="45" y="103" font-size="9" fill="#e74c3c">━━ 硬件中断门 (CPU自动压栈) ━━</text>
+
+  <rect x="30" y="112" width="200" height="28" rx="2" fill="#fdedec" stroke="#e74c3c" stroke-width="1"/>
+  <text x="45" y="127" font-size="10" fill="#2c3e50">EFLAGS</text>
+
+  <rect x="30" y="143" width="200" height="28" rx="2" fill="#fdedec" stroke="#e74c3c" stroke-width="1"/>
+  <text x="45" y="158" font-size="10" fill="#2c3e50">CS</text>
+
+  <rect x="30" y="174" width="200" height="28" rx="2" fill="#fdedec" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="45" y="189" font-size="10" fill="#2c3e50">EIP (被中断处指令地址)</text>
+  <text x="245" y="189" font-size="9" fill="#2980b9">← 🔵 iret 返回目标</text>
+
+  <!-- === Section: pushad === -->
+  <rect x="30" y="207" width="200" height="18" rx="2" fill="#eaf2f8" stroke="#2980b9" stroke-width="1"/>
+  <text x="45" y="220" font-size="9" fill="#2980b9">━━ pushad (8×4=32字节) ━━</text>
+
+  <rect x="30" y="229" width="200" height="55" rx="2" fill="#e8f4fd" stroke="#2980b9" stroke-width="1"/>
+  <text x="45" y="245" font-size="10" fill="#2c3e50">EAX, ECX, EDX, EBX</text>
+  <text x="45" y="262" font-size="10" fill="#2c3e50">ESP(原), EBP, ESI, EDI</text>
+  <text x="45" y="279" font-size="9" fill="#7f8c8d">← pushad结束 (asm_time_interrupt_handler)</text>
+
+  <!-- === Section: call chain === -->
+  <rect x="30" y="289" width="200" height="18" rx="2" fill="#fef9e7" stroke="#f39c12" stroke-width="1"/>
+  <text x="45" y="302" font-size="9" fill="#f39c12">━━ call 链 ━━</text>
+
+  <rect x="30" y="311" width="200" height="45" rx="2" fill="#fef9e7" stroke="#f39c12" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="45" y="327" font-size="9" fill="#2c3e50">返回到 asm_time_handler</text>
+  <text x="45" y="343" font-size="9" fill="#7f8c8d">c_time_interrupt_handler</text>
+  <text x="45" y="359" font-size="9" fill="#7f8c8d">→ schedule() 调用链...</text>
+
+  <!-- === Section: asm_switch_thread's 4 pushes === -->
+  <rect x="30" y="361" width="200" height="18" rx="2" fill="#d5f5e3" stroke="#27ae60" stroke-width="1"/>
+  <text x="45" y="374" font-size="9" fill="#27ae60">━━ asm_switch_thread 保存 ━━</text>
+
+  <rect x="30" y="383" width="200" height="28" rx="2" fill="#d5f5e3" stroke="#27ae60" stroke-width="1"/>
+  <text x="45" y="398" font-size="10" fill="#2c3e50">保存的 ebp (push ebp)</text>
+
+  <rect x="30" y="414" width="200" height="28" rx="2" fill="#d5f5e3" stroke="#27ae60" stroke-width="1"/>
+  <text x="45" y="429" font-size="10" fill="#2c3e50">保存的 ebx (push ebx)</text>
+
+  <rect x="30" y="445" width="200" height="28" rx="2" fill="#d5f5e3" stroke="#27ae60" stroke-width="1"/>
+  <text x="45" y="460" font-size="10" fill="#2c3e50">保存的 edi (push edi)</text>
+
+  <!-- Highlighted: cur->stack points here -->
+  <rect x="30" y="476" width="200" height="28" rx="2" fill="#fadbd8" stroke="#e74c3c" stroke-width="2"/>
+  <text x="45" y="491" font-size="10" fill="#2c3e50">保存的 esi (push esi)</text>
+  <text x="245" y="491" font-size="10" fill="#e74c3c" font-weight="bold">← 🔴 cur→stack = esp</text>
+
+  <!-- Free space -->
+  <rect x="30" y="508" width="200" height="20" rx="2" fill="#f4f6f6" stroke="#bdc3c7" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="45" y="522" font-size="9" fill="#95a5a6">...空闲...</text>
+
+  <!-- === Right panel: Recovery sequence === -->
+  <rect x="270" y="50" width="275" height="230" rx="6" fill="#eafaf1" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="290" y="72" font-size="13" font-weight="bold" fill="#27ae60">恢复过程 (从 cur→stack 开始)</text>
+  <line x1="290" y1="80" x2="525" y2="80" stroke="#27ae60" stroke-width="0.5"/>
+
+  <text x="290" y="100" font-size="10" fill="#2c3e50">① pop esi, edi, ebx, ebp</text>
+  <text x="305" y="118" font-size="9" fill="#7f8c8d">恢复 4 个寄存器, esp 上移 16B</text>
+
+  <text x="290" y="142" font-size="10" fill="#2c3e50">② ret</text>
+  <text x="305" y="160" font-size="9" fill="#e74c3c">🔵 eip → schedule()中调用点后一条指令</text>
+
+  <text x="290" y="184" font-size="10" fill="#2c3e50">③ schedule() 返回</text>
+  <text x="305" y="202" font-size="9" fill="#e74c3c">🔵 eip → c_time_interrupt_handler</text>
+
+  <text x="290" y="226" font-size="10" fill="#2c3e50">④ c_time... 返回 → popad</text>
+  <text x="305" y="244" font-size="9" fill="#7f8c8d">恢复 EAX,ECX,EDX,EBX,EBP,ESI,EDI</text>
+
+  <text x="290" y="268" font-size="10" fill="#2c3e50">⑤ iret</text>
+  <text x="305" y="286" font-size="9" fill="#e74c3c">🔵 eip → 被中断处指令 (线程继续)</text>
+
+  <!-- Bottom: Summary box -->
+  <rect x="270" y="300" width="275" height="200" rx="6" fill="#f4f6f6" stroke="#bdc3c7" stroke-width="1"/>
+  <text x="290" y="322" font-size="12" font-weight="bold" fill="#2c3e50">栈帧层级总结</text>
+  <line x1="290" y1="330" x2="525" y2="330" stroke="#bdc3c7" stroke-width="0.5"/>
+
+  <rect x="285" y="342" width="12" height="12" fill="#d5f5e3" stroke="#27ae60" stroke-width="1"/>
+  <text x="305" y="353" font-size="9" fill="#2c3e50">绿色: asm_switch_thread 保存的4个寄存器</text>
+
+  <rect x="285" y="362" width="12" height="12" fill="#fef9e7" stroke="#f39c12" stroke-width="1"/>
+  <text x="305" y="373" font-size="9" fill="#2c3e50">黄色: C函数调用链的返回地址</text>
+
+  <rect x="285" y="382" width="12" height="12" fill="#e8f4fd" stroke="#2980b9" stroke-width="1"/>
+  <text x="305" y="393" font-size="9" fill="#2c3e50">蓝色: pushad 保存的8个寄存器</text>
+
+  <rect x="285" y="402" width="12" height="12" fill="#fdedec" stroke="#e74c3c" stroke-width="1"/>
+  <text x="305" y="413" font-size="9" fill="#2c3e50">红色: CPU硬件中断自动压栈</text>
+
+  <text x="290" y="440" font-size="9" fill="#e74c3c">🔴 cur→stack 指向最深层的保存点(esi)</text>
+  <text x="290" y="458" font-size="9" fill="#2980b9">🔵 eip 沿栈帧逐层上跳: ret→schedule</text>
+  <text x="320" y="474" font-size="9" fill="#2980b9">→handler→popad→iret→中断前代码</text>
+
+  <!-- High/Low address markers -->
+  <text x="35" y="540" font-size="9" fill="#7f8c8d">低地址 ▼</text>
+  <text x="35" y="50" font-size="9" fill="#7f8c8d">高地址 ▲</text>
+</svg>

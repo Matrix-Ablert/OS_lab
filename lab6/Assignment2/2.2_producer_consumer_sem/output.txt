@@ -1,0 +1,48 @@
+=== Producer-Consumer with Semaphore ===
+BufSize=5 | Sem: empty=5 full=0 mutex=1
+
+[P-A] put item 0 at slot [0]
+[P-A] put item 1 at slot [1]
+[P-A] put item 2 at slot [2]
+[P-A] put item 3 at slot [3]
+[P-A] put item 4 at slot [4]
+[C-X] get item 0 from slot [0]
+[C-X] get item 1 from slot [1]
+[C-X] get item 2 from slot [2]
+[C-X] get item 3 from slot [3]
+[C-X] get item 4 from slot [4]
+[P-A] put item 5 at slot [0]
+[P-A] put item 6 at slot [1]
+[P-A] put item 7 at slot [2]
+[P-A] put item 8 at slot [3]
+[P-A] put item 9 at slot [4]
+[P-A] done!
+[C-X] get item 5 from slot [0]
+[C-X] get item 6 from slot [1]
+[C-X] get item 7 from slot [2]
+[C-X] get item 8 from slot [3]
+[C-X] get item 9 from slot [4]
+[C-X] done!
+[P-B] put item 0 at slot [0]
+[P-B] put item 1 at slot [1]
+[P-B] put item 2 at slot [2]
+[P-B] put item 3 at slot [3]
+[P-B] put item 4 at slot [4]
+[C-Y] get item 0 from slot [0]
+[C-Y] get item 1 from slot [1]
+[C-Y] get item 2 from slot [2]
+[C-Y] get item 3 from slot [3]
+[C-Y] get item 4 from slot [4]
+[P-B] put item 5 at slot [0]
+[P-B] put item 6 at slot [1]
+[P-B] put item 7 at slot [2]
+[P-B] put item 8 at slot [3]
+[P-B] put item 9 at slot [4]
+[P-B] done!
+[C-Y] get item 5 from slot [0]
+[C-Y] get item 6 from slot [1]
+[C-Y] get item 7 from slot [2]
+[C-Y] get item 8 from slot [3]
+[C-Y] get item 9 from slot [4]
+[C-Y] done!
+

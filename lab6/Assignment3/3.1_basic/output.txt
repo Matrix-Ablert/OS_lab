@@ -1,0 +1,195 @@
+WARNING: Image format was not specified for '../run/hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8B4A0+07ECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..=== Dining Philosophers (Basic Solution) ===
+5 philosophers, 5 chopsticks (semaphores)
+Strategy: pick left first, then right
+
+[P0] is Thinking
+[P0] is Hungry
+[P0] picked up left chopstick[0]
+[P0] picked up right chopstick[1]
+[P0] is Eating (count=1)
+[P0] put down chopsticks
+
+[P0] is Thinking
+[P0] is Hungry
+[P0] picked up left chopstick[0]
+[P0] picked up right chopstick[1]
+[P0] is Eating (count=2)
+[P0] put down chopsticks
+
+[P0] is Thinking
+[P0] is Hungry
+[P0] picked up left chopstick[0]
+[P0] picked up right chopstick[1]
+[P0] is Eating (count=3)
+[P0] put down chopsticks
+
+[P0] is Thinking
+[P0] is Hungry
+[P0] picked up left chopstick[0]
+[P0] picked up right chopstick[1]
+[P0] is Eating (count=4)
+[P0] put down chopsticks
+
+[P0] is Thinking
+[P0] is Hungry
+[P0] picked up left chopstick[0]
+[P0] picked up right chopstick[1]
+[P0] is Eating (count=5)
+[P0] put down chopsticks
+
+[P0] done! total eat count=5
+[P1] is Thinking
+[P1] is Hungry
+[P1] picked up left chopstick[1]
+[P1] picked up right chopstick[2]
+[P1] is Eating (count=1)
+[P1] put down chopsticks
+
+[P1] is Thinking
+[P1] is Hungry
+[P1] picked up left chopstick[1]
+[P1] picked up right chopstick[2]
+[P1] is Eating (count=2)
+[P1] put down chopsticks
+
+[P1] is Thinking
+[P1] is Hungry
+[P1] picked up left chopstick[1]
+[P1] picked up right chopstick[2]
+[P1] is Eating (count=3)
+[P1] put down chopsticks
+
+[P1] is Thinking
+[P1] is Hungry
+[P1] picked up left chopstick[1]
+[P1] picked up right chopstick[2]
+[P1] is Eating (count=4)
+[P1] put down chopsticks
+
+[P1] is Thinking
+[P1] is Hungry
+[P1] picked up left chopstick[1]
+[P1] picked up right chopstick[2]
+[P1] is Eating (count=5)
+[P1] put down chopsticks
+
+[P1] done! total eat count=5
+[P2] is Thinking
+[P2] is Hungry
+[P2] picked up left chopstick[2]
+[P2] picked up right chopstick[3]
+[P2] is Eating (count=1)
+[P2] put down chopsticks
+
+[P2] is Thinking
+[P2] is Hungry
+[P2] picked up left chopstick[2]
+[P2] picked up right chopstick[3]
+[P2] is Eating (count=2)
+[P2] put down chopsticks
+
+[P2] is Thinking
+[P2] is Hungry
+[P2] picked up left chopstick[2]
+[P2] picked up right chopstick[3]
+[P2] is Eating (count=3)
+[P2] put down chopsticks
+
+[P2] is Thinking
+[P2] is Hungry
+[P2] picked up left chopstick[2]
+[P2] picked up right chopstick[3]
+[P2] is Eating (count=4)
+[P2] put down chopsticks
+
+[P2] is Thinking
+[P2] is Hungry
+[P2] picked up left chopstick[2]
+[P2] picked up right chopstick[3]
+[P2] is Eating (count=5)
+[P2] put down chopsticks
+
+[P2] done! total eat count=5
+[P3] is Thinking
+[P3] is Hungry
+[P3] picked up left chopstick[3]
+[P3] picked up right chopstick[4]
+[P3] is Eating (count=1)
+[P3] put down chopsticks
+
+[P3] is Thinking
+[P3] is Hungry
+[P3] picked up left chopstick[3]
+[P3] picked up right chopstick[4]
+[P3] is Eating (count=2)
+[P3] put down chopsticks
+
+[P3] is Thinking
+[P3] is Hungry
+[P3] picked up left chopstick[3]
+[P3] picked up right chopstick[4]
+[P3] is Eating (count=3)
+[P3] put down chopsticks
+
+[P3] is Thinking
+[P3] is Hungry
+[P3] picked up left chopstick[3]
+[P3] picked up right chopstick[4]
+[P3] is Eating (count=4)
+[P3] put down chopsticks
+
+[P3] is Thinking
+[P3] is Hungry
+[P3] picked up left chopstick[3]
+[P3] picked up right chopstick[4]
+[P3] is Eating (count=5)
+[P3] put down chopsticks
+
+[P3] done! total eat count=5
+[P4] is Thinking
+[P4] is Hungry
+[P4] picked up left chopstick[4]
+[P4] picked up right chopstick[0]
+[P4] is Eating (count=1)
+[P4] put down chopsticks
+
+[P4] is Thinking
+[P4] is Hungry
+[P4] picked up left chopstick[4]
+[P4] picked up right chopstick[0]
+[P4] is Eating (count=2)
+[P4] put down chopsticks
+
+[P4] is Thinking
+[P4] is Hungry
+[P4] picked up left chopstick[4]
+[P4] picked up right chopstick[0]
+[P4] is Eating (count=3)
+[P4] put down chopsticks
+
+[P4] is Thinking
+[P4] is Hungry
+[P4] picked up left chopstick[4]
+[P4] picked up right chopstick[0]
+[P4] is Eating (count=4)
+[P4] put down chopsticks
+
+[P4] is Thinking
+[P4] is Hungry
+[P4] picked up left chopstick[4]
+[P4] picked up right chopstick[0]
+[P4] is Eating (count=5)
+[P4] put down chopsticks
+
+[P4] done! total eat count=5
+qemu-system-i386: terminating on signal 15 from pid 3275 (timeout)

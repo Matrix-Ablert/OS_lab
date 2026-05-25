@@ -1,0 +1,48 @@
+=== Producer-Consumer WITHOUT Sync ===
+BufSize=5 | 2 Producers + 2 Consumers
+
+Producer A: put 0 at [0], buf_count=1
+Producer A: put 1 at [1], buf_count=2
+Producer A: put 2 at [2], buf_count=3
+Producer A: put 3 at [3], buf_count=4
+Producer A: put 4 at [4], buf_count=5
+Producer A: put 5 at [0], buf_count=6
+Producer A: put 6 at [1], buf_count=7
+Producer A: put 7 at [2], buf_count=8
+Producer A: put 8 at [3], buf_count=9
+Producer A: put 9 at [4], buf_count=10
+Producer A: done!
+Consumer X: get 5 from [0], buf_count=9
+Consumer X: get 6 from [1], buf_count=8
+Consumer X: get 7 from [2], buf_count=7
+Consumer X: get 8 from [3], buf_count=6
+Consumer X: get 9 from [4], buf_count=5
+Consumer X: get 5 from [0], buf_count=4
+Consumer X: get 6 from [1], buf_count=3
+Consumer X: get 7 from [2], buf_count=2
+Consumer X: get 8 from [3], buf_count=1
+Consumer X: get 9 from [4], buf_count=0
+Consumer X: done!
+Producer B: put 0 at [0], buf_count=1
+Producer B: put 1 at [1], buf_count=2
+Producer B: put 2 at [2], buf_count=3
+Producer B: put 3 at [3], buf_count=4
+Producer B: put 4 at [4], buf_count=5
+Producer B: put 5 at [0], buf_count=6
+Producer B: put 6 at [1], buf_count=7
+Producer B: put 7 at [2], buf_count=8
+Producer B: put 8 at [3], buf_count=9
+Producer B: put 9 at [4], buf_count=10
+Producer B: done!
+Consumer Y: get 5 from [0], buf_count=9
+Consumer Y: get 6 from [1], buf_count=8
+Consumer Y: get 7 from [2], buf_count=7
+Consumer Y: get 8 from [3], buf_count=6
+Consumer Y: get 9 from [4], buf_count=5
+Consumer Y: get 5 from [0], buf_count=4
+Consumer Y: get 6 from [1], buf_count=3
+Consumer Y: get 7 from [2], buf_count=2
+Consumer Y: get 8 from [3], buf_count=1
+Consumer Y: get 9 from [4], buf_count=0
+Consumer Y: done!
+

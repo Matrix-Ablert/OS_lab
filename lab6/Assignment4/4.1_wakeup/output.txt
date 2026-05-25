@@ -1,0 +1,38 @@
+WARNING: Image format was not specified for '../run/hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8B4A0+07ECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk...
+========================================
+    Wake-Up Model Comparison Test
+========================================
+
+=== [MESA] Model ===
+Expect: signaler keeps running;
+        woken thread enters ready queue.
+
+[P0] produce item=0 at[0] cnt=1
+[P0] produce item=1 at[1] cnt=2
+[P0] produce item=2 at[2] cnt=3
+[P0] buffer full (cnt=3), waiting...
+[P1] buffer full (cnt=3), waiting...
+[P2] buffer full (cnt=3), waiting...
+[C0] consume item=0 from[0] cnt=3
+[C0] consume item=1 from[1] cnt=2
+[C0] consume item=2 from[2] cnt=1
+[C0] buffer empty (cnt=0), waiting...
+[P0] produce item=3 at[0] cnt=1
+[P0] produce item=4 at[1] cnt=2
+>> [P0] DONE
+[C0] consume item=3 from[0] cnt=2
+[C0] consume item=4 from[1] cnt=1
+>> [C0] DONE
+[C1] buffer empty (cnt=0), waiting...
+[C2] buffer empty (cnt=0), waiting...
+qemu-system-i386: terminating on signal 15 from pid 3577 (timeout)

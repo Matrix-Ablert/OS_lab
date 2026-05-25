@@ -1,0 +1,69 @@
+=== Reader-Writer (Reader-Priority) ===
+5 Readers + 1 Writer -> Writer Starvation
+
+[Writer] trying to enter CR...
+[Writer] WRITE: shared_data = 1
+[Writer] leave  CR
+[Writer] trying to enter CR...
+[Writer] WRITE: shared_data = 2
+[Writer] leave  CR
+[Writer] trying to enter CR...
+[Writer] WRITE: shared_data = 3
+[Writer] leave  CR
+[Writer] all done!
+[Reader 1] enter  CR, shared_data = 3
+[Reader 1] leave  CR
+[Reader 1] enter  CR, shared_data = 3
+[Reader 1] leave  CR
+[Reader 1] enter  CR, shared_data = 3
+[Reader 1] leave  CR
+[Reader 1] enter  CR, shared_data = 3
+[Reader 1] leave  CR
+[Reader 1] enter  CR, shared_data = 3
+[Reader 1] leave  CR
+[Reader 1] all done!
+[Reader 2] enter  CR, shared_data = 3
+[Reader 2] leave  CR
+[Reader 2] enter  CR, shared_data = 3
+[Reader 2] leave  CR
+[Reader 2] enter  CR, shared_data = 3
+[Reader 2] leave  CR
+[Reader 2] enter  CR, shared_data = 3
+[Reader 2] leave  CR
+[Reader 2] enter  CR, shared_data = 3
+[Reader 2] leave  CR
+[Reader 2] all done!
+[Reader 3] enter  CR, shared_data = 3
+[Reader 3] leave  CR
+[Reader 3] enter  CR, shared_data = 3
+[Reader 3] leave  CR
+[Reader 3] enter  CR, shared_data = 3
+[Reader 3] leave  CR
+[Reader 3] enter  CR, shared_data = 3
+[Reader 3] leave  CR
+[Reader 3] enter  CR, shared_data = 3
+[Reader 3] leave  CR
+[Reader 3] all done!
+[Reader 4] enter  CR, shared_data = 3
+[Reader 4] leave  CR
+[Reader 4] enter  CR, shared_data = 3
+[Reader 4] leave  CR
+[Reader 4] enter  CR, shared_data = 3
+[Reader 4] leave  CR
+[Reader 4] enter  CR, shared_data = 3
+[Reader 4] leave  CR
+[Reader 4] enter  CR, shared_data = 3
+[Reader 4] leave  CR
+[Reader 4] all done!
+[Reader 5] enter  CR, shared_data = 3
+[Reader 5] leave  CR
+[Reader 5] enter  CR, shared_data = 3
+[Reader 5] leave  CR
+[Reader 5] enter  CR, shared_data = 3
+[Reader 5] leave  CR
+[Reader 5] enter  CR, shared_data = 3
+[Reader 5] leave  CR
+[Reader 5] enter  CR, shared_data = 3
+[Reader 5] leave  CR
+[Reader 5] all done!
+

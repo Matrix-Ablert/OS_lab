@@ -1,0 +1,42 @@
+qemu-system-i386 -hda ../run/hd.img -serial stdio -display none -no-reboot
+WARNING: Image format was not specified for '../run/hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+open page mechanism
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0x10000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0x107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0x10F9C
+
+===== Memory Status =====
+Total Physical Memory: 129920 KB (126 MB)
+Kernel Physical Pool: 15984 pages total, 0 used (0%), 15984 free
+User Physical Pool: 15984 pages total, 0 used (0%), 15984 free
+Kernel Virtual Pool: 15984 pages total, 0 used (0%), 15984 free
+Page Directory Entries (P=1): 3
+Page Table Entries (P=1): 515
+==========================
+
+Allocated: C0100000 C0164000 C016E000
+After release+alloc: C01D2000
+Final alloc: C0164000
+
+===== Memory Status =====
+Total Physical Memory: 129920 KB (126 MB)
+Kernel Physical Pool: 15984 pages total, 310 used (1%), 15674 free
+User Physical Pool: 15984 pages total, 0 used (0%), 15984 free
+Kernel Virtual Pool: 15984 pages total, 310 used (1%), 15674 free
+Page Directory Entries (P=1): 3
+Page Table Entries (P=1): 1135
+==========================
+
+qemu-system-i386: terminating on signal 15 from pid 4655 (timeout)

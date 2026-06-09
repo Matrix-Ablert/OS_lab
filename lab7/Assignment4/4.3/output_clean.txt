@@ -1,0 +1,84 @@
+qemu-system-i386 -hda ../run/hd.img -serial stdio -display none -no-reboot
+WARNING: Image format was not specified for '../run/hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+open page mechanism
+[MEM] total 126MB | kernel phys: 15984 pages (0x200000) | kernel virt: 15984 pages (0xC0100000)
+[Buddy] Initialized: base=0x200000, pages=1024, maxOrder=10 (block size=1024 pages)
+========== 4.3 Buddy System Test ==========
+
+[Initial Buddy Status]
+===== Buddy Allocator Status =====
+Base: 0x200000, Total: 1024 pages (4096 KB)
+Allocated: 0 pages (0 KB)
+Free block lists:
+  Order 10 (1024 pages): 1 block(s), first=0x200000
+Free total: 1024 pages (4096 KB)
+==================================
+
+--- Test 1: Allocate blocks of various sizes ---
+Allocated 1 page  at 0x200000 (order 0)
+Allocated 2 pages at 0x202000 (order 1)
+Allocated 3 pages at 0x204000 (rounded to order 2)
+Allocated 8 pages at 0x208000 (order 3)
+
+[After Test 1: Buddy Status]
+===== Buddy Allocator Status =====
+Base: 0x200000, Total: 1024 pages (4096 KB)
+Allocated: 15 pages (60 KB)
+Free block lists:
+  Order 0 (1 pages): 1 block(s), first=0x201000
+  Order 4 (16 pages): 1 block(s), first=0x210000
+  Order 5 (32 pages): 1 block(s), first=0x220000
+  Order 6 (64 pages): 1 block(s), first=0x240000
+  Order 7 (128 pages): 1 block(s), first=0x280000
+  Order 8 (256 pages): 1 block(s), first=0x300000
+  Order 9 (512 pages): 1 block(s), first=0x400000
+Free total: 1009 pages (4036 KB)
+==================================
+
+--- Test 2: Release blocks and observe buddy merging ---
+Releasing 2-page block at 0x202000
+Releasing 1-page block at 0x200000
+
+[After Test 2: Buddy Status]
+===== Buddy Allocator Status =====
+Base: 0x200000, Total: 1024 pages (4096 KB)
+Allocated: 12 pages (48 KB)
+Free block lists:
+  Order 2 (4 pages): 1 block(s), first=0x200000
+  Order 4 (16 pages): 1 block(s), first=0x210000
+  Order 5 (32 pages): 1 block(s), first=0x220000
+  Order 6 (64 pages): 1 block(s), first=0x240000
+  Order 7 (128 pages): 1 block(s), first=0x280000
+  Order 8 (256 pages): 1 block(s), first=0x300000
+  Order 9 (512 pages): 1 block(s), first=0x400000
+Free total: 1012 pages (4048 KB)
+==================================
+
+--- Test 3: Allocate many pages (stress test) ---
+   ... allocated 200 single pages
+   ... allocated 400 single pages
+   ... allocated 600 single pages
+   ... allocated 800 single pages
+   ... allocated 1000 single pages
+[Buddy] FAILED: no free block for 1 pages (order 0)
+Buddy exhausted after 1012 allocations
+Stress test allocated 1012 single pages
+
+[After Test 3: Buddy Status]
+===== Buddy Allocator Status =====
+Base: 0x200000, Total: 1024 pages (4096 KB)
+Allocated: 1024 pages (4096 KB)
+Free block lists:
+Free total: 0 pages (0 KB)
+==================================
+
+========== Buddy System Summary ==========
+Compared to bitmap-based allocator:
+  1. Buddy: O(log N) allocation via power-of-2 blocks
+  2. Buddy: Natural buddy merging reduces external fragmentation
+  3. Bitmap: Simple linear scan, O(N) for each allocation
+  4. Bitmap: No fragmentation control
+==========================================
+qemu-system-i386: terminating on signal 15 from pid 4902 (timeout)

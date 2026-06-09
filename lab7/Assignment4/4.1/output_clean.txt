@@ -1,0 +1,34 @@
+qemu-system-i386 -hda ../run/hd.img -serial stdio -display none -no-reboot
+WARNING: Image format was not specified for '../run/hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+open page mechanism
+[MEM] total 126MB | kernel phys: 15984 pages (0x200000) | kernel virt: 15984 pages (0xC0100000)
+[REPL] Page replacement initialized: max 48 physical pages (inline arrays)
+=== 4.1 Page Replacement Test (Clock Algorithm) ===
+
+[Phase 1] Allocating 45 pages (simulating access on some)...
+   ... allocated 20 pages so far
+   ... allocated 40 pages so far
+[Phase 1] Allocated 45 pages. allocatedPhysicalCount=45
+
+[Phase 2] Allocating 15 more pages (triggers replacement)...
+   ... allocated 46 pages total
+[PageReplacement] Victim: vaddr=0xC0101000, phys=0x201000 → New: vaddr=0xC0130000
+[PageReplacement] Victim: vaddr=0xC0102000, phys=0x202000 → New: vaddr=0xC0131000
+[PageReplacement] Victim: vaddr=0xC0103000, phys=0x203000 → New: vaddr=0xC0132000
+   ... allocated 51 pages total
+[PageReplacement] Victim: vaddr=0xC0104000, phys=0x204000 → New: vaddr=0xC0133000
+[PageReplacement] Victim: vaddr=0xC0105000, phys=0x205000 → New: vaddr=0xC0134000
+[PageReplacement] Victim: vaddr=0xC0106000, phys=0x206000 → New: vaddr=0xC0135000
+[PageReplacement] Victim: vaddr=0xC0107000, phys=0x207000 → New: vaddr=0xC0136000
+[PageReplacement] Victim: vaddr=0xC0108000, phys=0x208000 → New: vaddr=0xC0137000
+   ... allocated 56 pages total
+[PageReplacement] Victim: vaddr=0xC0109000, phys=0x209000 → New: vaddr=0xC0138000
+[PageReplacement] Victim: vaddr=0xC010A000, phys=0x20A000 → New: vaddr=0xC0139000
+[PageReplacement] Victim: vaddr=0xC010B000, phys=0x20B000 → New: vaddr=0xC013A000
+[PageReplacement] Victim: vaddr=0xC010C000, phys=0x20C000 → New: vaddr=0xC013B000
+[Phase 2] Total allocated: 60 pages
+
+=== Done. System halting. ===
+qemu-system-i386: terminating on signal 15 from pid 3650 (timeout)

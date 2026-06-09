@@ -1,0 +1,11 @@
+open page mechanism
+[MEM] total 126MB | kernel phys: 15984 pages (0x200000) | kernel virt: 15984 pages (0xC0100000)
+=== 3.3 Vaddr to Paddr Verification ===
+#1 Allocated vaddr: 0xC0100000
+#2 vaddr2paddr -> phy: 0x200000
+#3 Wrote 0xDEADBEEF to *(C0100000)=DEADBEEF
+    (verify via QEMU Monitor: xp 0x200000)
+=== Done (looping for monitor) ===
+
+--- QEMU Monitor xp verification ---
+0000000000200000: 0xdeadbeef

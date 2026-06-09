@@ -1,0 +1,26 @@
+=== screen ===
+VGA Blank mode
+SeaBIOS (version 1.15.0-1)
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8B590+07ECB590 CA00
+Booting from Hard Disk...
+open page mechanism
+mem: 126 MB, kernel: 15984 pages, user: 15984 pages
+===== Lab 2.2: Memory Utilization =====
+10 alloc + 5 free: First Fit vs Best Fit
+[FF] =====
+[FF] Step   1  2  3  4  5  6  7  8  9 10  11 12 13 14 15
+[FF] Op   +20 +10 +30  +5  -20 +15 -30  +8 -10 +12  -5  +7 +25 -15  +3
+[FF] Used  20 30 60 65 45 60 30 38 28 40  35 42 67 52 55
+[FF] Frag  1 1 1 1 2 2 3 2 3 2  1 1 1 2 2
+[FF] MaxFree15964,15954,15924,15919,15919,15919,15919,15919,15919,15919, 15949,1
+5942,15917,15917,15917
+[BF] =====
+[BF] Step   1  2  3  4  5  6  7  8  9 10  11 12 13 14 15
+[BF] Op   +20 +10 +30  +5  -20 +15 -30  +8 -10 +12  -5  +7 +25 -15  +3
+[BF] Used  20 30 60 65 45 60 30 38 28 40  35 42 67 52 55
+[BF] Frag  1 1 1 1 2 2 3 2 3 2  1 1 1 2 2
+[BF] MaxFree15964,15954,15924,15919,15919,15919,15919,15919,15919,15919, 15949,1
+========== Summary ==========
+First Fit: first hole | quick
+Best Fit:  smallest hole | saves big blocks
+=============================

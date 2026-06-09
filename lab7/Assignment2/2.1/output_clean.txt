@@ -1,0 +1,41 @@
+=== screen ===
+VGA Blank mode
+SeaBIOS (version 1.15.0-1)
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8B590+07ECB590 CA00
+Booting from Hard Disk...
+open page mechanism
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+start address: 0x200000
+total pages: 15984 ( 62 MB )
+bitmap start address: 0x10000
+user pool
+start address: 0x4070000
+bit map start address: 0x107CE
+kernel virtual pool
+start address: 0xC0100000
+total pages: 15984  ( 62 MB )
+bit map start address: 0x10F9C
+[First Fit] alloc 8 -> idx=0 |   [Used=23 MaxFree=15919 Frag=3]
+[First Fit] cleanup |   [Used=0 MaxFree=15984 Frag=1]
+[Best Fit] alloc: 30@0 10@30 20@40 5@60 |   [Used=65 MaxFree=15919 Frag=1]
+[Best Fit] free A(30) C(20) -> holes:30 & 20 |   [Used=15 MaxFree=15919 Frag=3]
+[Best Fit] alloc 8 -> idx=40 |   [Used=23 MaxFree=15919 Frag=3]
+[Best Fit] cleanup |   [Used=0 MaxFree=15984 Frag=1]
+[Worst Fit] alloc: 30@0 10@30 20@40 5@60 |   [Used=65 MaxFree=15919 Frag=1]
+[Worst Fit] free A(30) C(20) -> holes:30 & 20 |   [Used=15 MaxFree=15919 Frag=3]
+[Worst Fit] alloc 8 -> idx=65 |   [Used=23 MaxFree=15911 Frag=3]
+[Worst Fit] cleanup |   [Used=0 MaxFree=15984 Frag=1]
+[Next Fit] alloc: 30@0 10@30 20@40 5@60 |   [Used=65 MaxFree=15919 Frag=1]
+[Next Fit] free A(30) C(20) -> holes:30 & 20 |   [Used=15 MaxFree=15919 Frag=3]
+[Next Fit] alloc 8 -> idx=65 |   [Used=23 MaxFree=15911 Frag=3]
+[Next Fit] cleanup |   [Used=0 MaxFree=15984 Frag=1]
+========== FINAL SUMMARY ==========
+ Strategy  | alloc(8) idx | Expected
+ ----------|--------------|---------
+ First Fit | 0             | 0  (first)
+ Best Fit  | 40             | 40 (smallest)
+ Worst Fit | 65             | 65 (largest)
+ Next Fit  | 65
+| 65 (lastIdx)
+===================================

@@ -1,11 +1,6 @@
 # <center>lab8</center>
 
-> 实验环境：x86_64 主机，QEMU i386，GDB 调试，实验代码位于当前 `lab8` 工作目录。  
 > **本次实验部分代码、注释和报告整理参考自大模型。**
-
-本次实验围绕系统调用、用户进程创建、`fork/exit/wait`、僵尸进程与孤儿进程处理，以及选做的 `getpid/sleep` 系统调用展开。报告中的截图由 `lab8.pdf` 提取到 `assets/lab8/`，部分 GDB 证据来自各 Assignment 的分报告。
-
----
 
 ## Assignment 1 — 系统调用与特权级转换
 
@@ -106,31 +101,62 @@ factorial(7) = 5040
 
 本小节使用 GDB 在 `Assignment1/1.2` 中观察系统调用前后 `CS/SS/ESP/EIP` 的变化，重点分析 `TSS.ss0` 和 `TSS.esp0` 在特权级切换中的作用。
 
-> **截图待补充：此处应放置断在 `int 0x80` 前的 GDB 截图，显示 `CS=0x2b`、`SS=0x3b`、`ESP=0x8048fb8`、`EIP=0xc00226bd`。**
+**调试方法：**
 
-> **截图待补充：此处应放置进入 `asm_system_call_handler` 后的 GDB 截图，显示 `CS=0x20`、`SS=0x10`、`ESP=0xc002568c`。**
+```bash
+cd Assignment1/1.2/build
+make clean && make build
+qemu-system-i386 -hda ../run/hd.img -S -s -parallel stdio -serial null -no-reboot
+```
 
-> **截图待补充：此处应放置执行 `iret` 后的 GDB 截图，显示恢复到用户态 `CS=0x2b`、`SS=0x3b`、`ESP=0x8048fb8`。**
+另开一个终端连接 GDB：
 
-**GDB 记录：**
+```bash
+cd Assignment1/1.2/build
+gdb -q kernel.o
+target remote :1234
+set disassembly-flavor intel
+set pagination off
+```
 
-执行 `int 0x80` 之前：
+本次设置 3 个关键断点：
+
+```gdb
+b *0xc00226bd
+b *0xc0022667
+b *0xc00226a2
+c
+```
+
+![图 1.2-1 GDB 设置系统调用关键断点](assets/lab8/lab8-1-2-breakpoints.png)
+
+图 1.2-1 中，`0xc00226bd` 是 `asm_system_call` 中的 `int 0x80` 指令，`0xc0022667` 是 `asm_system_call_handler` 入口，`0xc00226a2` 是 handler 末尾的 `iret`。
+
+**1. 执行 `int 0x80` 之前：**
+
+![图 1.2-2 int 0x80 前的用户态寄存器](assets/lab8/lab8-1-2-before-int.png)
+
+图 1.2-2 显示此时程序断在 `asm_system_call` 的 `int 0x80` 指令处，关键寄存器如下：
 
 ```text
 CS=0x2b, SS=0x3b, ESP=0x8048fb8, EIP=0xc00226bd, CPL=3
 ```
 
-进入 `asm_system_call_handler` 之后：
+**结果分析：** `CPL = CS & 0x3 = 0x2b & 0x3 = 3`，说明当前仍处于用户态。`EIP=0xc00226bd` 正好指向 `int 0x80`，系统调用号和参数已经通过 `eax/ebx/ecx/edx/esi/edi` 准备好。
+
+**2. 进入 `asm_system_call_handler` 之后：**
+
+![图 1.2-3 进入系统调用处理函数后的内核态寄存器](assets/lab8/lab8-1-2-handler.png)
+
+图 1.2-3 显示执行 `int 0x80` 后，CPU 进入 `asm_system_call_handler`：
 
 ```text
 CS=0x20, SS=0x10, ESP=0xc002568c, EIP=0xc0022667, CPL=0
 ```
 
-执行 `iret` 之后：
+**实验现象：** `CS` 从 `0x2b` 变为 `0x20`，`SS` 从 `0x3b` 变为 `0x10`，`ESP` 切换到 `0xc002568c` 附近的内核栈。
 
-```text
-CS=0x2b, SS=0x3b, ESP=0x8048fb8, EIP=0xc00226bf, CPL=3
-```
+**原因：** 系统调用通过中断门从 CPL=3 进入 CPL=0。发生特权级提升时，CPU 会从当前 TSS 中读取 `ss0=0x10` 和 `esp0=0xc00256a0`，切换到 0 特权级栈，然后把用户态返回现场压入这个内核栈。
 
 **内核栈现场：**
 
@@ -149,7 +175,37 @@ ESP     = 0x8048fb8
 SS      = 0x3b
 ```
 
-**结果分析：** `CS & 0x3` 表示 CPL。`int 0x80` 前 `CS=0x2b`，所以 CPL=3；进入 handler 后 `CS=0x20`，所以 CPL=0。由于发生了从 3 特权级到 0 特权级的切换，CPU 会从当前 TSS 中取出 `ss0=0x10` 和 `esp0=0xc00256a0`，切换到内核栈，再把用户态返回现场压入该内核栈。`iret` 正是从这些栈内容中弹出 `EIP/CS/EFLAGS/ESP/SS`，从而回到用户态继续执行 `int 0x80` 后的指令。
+**3. 执行 `iret` 前后：**
+
+![图 1.2-4 执行 iret 前的内核态寄存器](assets/lab8/lab8-1-2-before-iret.png)
+
+图 1.2-4 显示 handler 即将执行 `iret`，此时仍在内核态：
+
+```text
+CS=0x20, SS=0x10, ESP=0xc002568c, EIP=0xc00226a2
+```
+
+这说明内核栈顶仍然指向进入中断时保存的用户态现场。
+
+![图 1.2-5 执行 iret 后恢复到用户态](assets/lab8/lab8-1-2-after-iret.png)
+
+图 1.2-5 显示单步执行 `iret` 后寄存器恢复为：
+
+```text
+CS=0x2b, SS=0x3b, ESP=0x8048fb8, EIP=0xc00226bf, CPL=3
+```
+
+**结果分析：** `iret` 从当前内核栈弹出 `EIP/CS/EFLAGS/ESP/SS`。因此 `CS/SS/ESP` 恢复为用户态的值，`EIP=0xc00226bf` 指向 `int 0x80` 后的下一条指令，程序继续在用户态执行。
+
+**问题回答：**
+
+1. `int 0x80` 之前，`CS=0x2b`、`SS=0x3b`、`ESP=0x8048fb8`、`EIP=0xc00226bd`，`CPL=3`。
+
+2. 进入 `asm_system_call_handler` 后，`CS=0x20`、`SS=0x10`、`ESP=0xc002568c`，`CPL=0`。新的 `SS` 和内核栈初始地址来自 TSS 中的 `ss0` 和 `esp0`。
+
+3. 执行 `iret` 后，`CS=0x2b`、`SS=0x3b`、`ESP=0x8048fb8`、`EIP=0xc00226bf`，CPU 回到用户态。这些值保存在进入中断时 CPU 自动压入的内核栈现场中。
+
+4. `TSS.ss0` 和 `TSS.esp0` 的作用是在用户态进入内核态时提供 0 特权级栈。CPU 不使用用户栈处理内核代码，而是切换到当前进程对应的内核栈，保证内核态处理过程有可信的栈空间。
 
 ---
 
@@ -554,5 +610,3 @@ WAKE pid=3 sleepTicks=0 status=3
 ## 总结
 
 本次实验从系统调用入口开始，逐步扩展到用户进程、fork、exit、wait 和进程生命周期管理。系统调用部分验证了 `int 0x80` 和 TSS 栈切换机制；进程部分验证了 PCB、页目录、用户栈和 `iret` 启动用户态的关系；fork/exit/wait 部分展示了父子进程生命周期管理；3.3 进一步处理了父进程退出后的僵尸与孤儿问题；4.1 则新增 `getpid` 和阻塞式 `sleep`，展示了基于时钟中断的简单同步。
-
-> **待补充总览：** 1.2 尚缺 GDB 截图，当前报告已使用实际 GDB 文本记录支撑分析。若需要提交完整图文版，请补充 `int 0x80` 前、进入 handler 后、`iret` 后三张 GDB 截图。

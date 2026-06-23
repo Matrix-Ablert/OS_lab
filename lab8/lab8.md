@@ -1,11 +1,6 @@
 # <center>lab8</center>
 
-> 实验环境：x86_64 主机，QEMU i386，GDB 调试，实验代码位于当前 `lab8` 工作目录。  
 > **本次实验部分代码、注释和报告整理参考自大模型。**
-
-本次实验围绕系统调用、用户进程创建、`fork/exit/wait`、僵尸进程与孤儿进程处理，以及选做的 `getpid/sleep` 系统调用展开。报告中的截图由 `lab8.pdf` 提取到 `assets/lab8/`，部分 GDB 证据来自各 Assignment 的分报告。
-
----
 
 ## Assignment 1 — 系统调用与特权级转换
 
@@ -106,11 +101,33 @@ factorial(7) = 5040
 
 本小节使用 GDB 在 `Assignment1/1.2` 中观察系统调用前后 `CS/SS/ESP/EIP` 的变化，重点分析 `TSS.ss0` 和 `TSS.esp0` 在特权级切换中的作用。
 
-> **截图待补充：此处应放置断在 `int 0x80` 前的 GDB 截图，显示 `CS=0x2b`、`SS=0x3b`、`ESP=0x8048fb8`、`EIP=0xc00226bd`。**
+**设置断点：**
 
-> **截图待补充：此处应放置进入 `asm_system_call_handler` 后的 GDB 截图，显示 `CS=0x20`、`SS=0x10`、`ESP=0xc002568c`。**
+![image-20260623225951663](C:\Users\Wang\AppData\Roaming\Typora\typora-user-images\image-20260623225951663.png)
 
-> **截图待补充：此处应放置执行 `iret` 后的 GDB 截图，显示恢复到用户态 `CS=0x2b`、`SS=0x3b`、`ESP=0x8048fb8`。**
+在`0xc00226bd`、`0xc0022667`、`0xc00226a2` 处设置断点
+
+
+
+![1782227660021](D:\documents\WeChat Files\wxid_rj4qdhmdora922\FileStorage\Temp\1782227660021.png)
+
+此时 CS=0x2b，CPL = CS & 0x3 = 3，说明当前处于用户态。
+EIP=0xc00226bd，正好指向 asm_system_call 中的 int 0x80 指令。
+
+![1782227924238](D:\documents\WeChat Files\wxid_rj4qdhmdora922\FileStorage\Temp\1782227924238.png)
+
+执行 int 0x80 后，CS 从 0x2b 变为 0x20，CPL 从 3 变为 0。
+SS 从 0x3b 变为 0x10，ESP 切换到 0xc002568c 附近的内核栈。
+新的 SS/ESP 来自 TSS 中的 ss0/esp0。
+内核栈顶部保存的是用户态返回现场：EIP、CS、EFLAGS、ESP、SS。
+
+![1782228070822](D:\documents\WeChat Files\wxid_rj4qdhmdora922\FileStorage\Temp\1782228070822.png)
+
+![1782228211206](D:\documents\WeChat Files\wxid_rj4qdhmdora922\FileStorage\Temp\1782228211206.png)
+
+执行 iret 后，CS/SS/ESP 恢复为用户态的值。
+EIP=0xc00226bf，说明程序回到了 int 0x80 后的下一条指令继续执行。
+这些值来自前面 CPU 自动压入内核栈的用户态现场。
 
 **GDB 记录：**
 
@@ -554,5 +571,3 @@ WAKE pid=3 sleepTicks=0 status=3
 ## 总结
 
 本次实验从系统调用入口开始，逐步扩展到用户进程、fork、exit、wait 和进程生命周期管理。系统调用部分验证了 `int 0x80` 和 TSS 栈切换机制；进程部分验证了 PCB、页目录、用户栈和 `iret` 启动用户态的关系；fork/exit/wait 部分展示了父子进程生命周期管理；3.3 进一步处理了父进程退出后的僵尸与孤儿问题；4.1 则新增 `getpid` 和阻塞式 `sleep`，展示了基于时钟中断的简单同步。
-
-> **待补充总览：** 1.2 尚缺 GDB 截图，当前报告已使用实际 GDB 文本记录支撑分析。若需要提交完整图文版，请补充 `int 0x80` 前、进入 handler 后、`iret` 后三张 GDB 截图。

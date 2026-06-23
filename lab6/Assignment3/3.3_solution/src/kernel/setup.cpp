@@ -83,7 +83,7 @@ void first_thread(void *arg)
         chopstick[i].initialize(1);
     }
     // limit 初始值=4，即最多4人可同时持有筷子
-    limit.initialize(4);
+    limit.initialize(5);
 
     // 创建5个哲学家线程
     programManager.executeThread(philosopher, (void *)0, "P0", 1);

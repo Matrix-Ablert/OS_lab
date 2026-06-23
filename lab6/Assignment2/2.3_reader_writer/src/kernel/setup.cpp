@@ -26,11 +26,12 @@ uint32 my_rand()
 void reader_thread(void *arg)
 {
     int id = (int)(long long)arg;
-    for (int round = 0; round < 5; round++)
+    for (int round = 0; round < 10; round++)
     {
         rwLock.readLock();
         printf("[Reader %d] enter  CR, shared_data = %d\n", id, shared_data);
 
+        // 临界区内留较长 delay, 让多个读者时间上重叠
         int delay = my_rand() % 0xFFFFF;
         while (delay)
             --delay;
@@ -38,7 +39,8 @@ void reader_thread(void *arg)
         printf("[Reader %d] leave  CR\n", id);
         rwLock.readUnlock();
 
-        delay = my_rand() % 0xFFFFF;
+        // 临界区外几乎不 delay — 立刻尝试重入, 保证总有读者在读
+        delay = 0xFF;
         while (delay)
             --delay;
     }
@@ -55,13 +57,15 @@ void writer_thread(void *arg)
         ++shared_data;
         printf("[Writer] WRITE: shared_data = %d\n", shared_data);
 
-        int delay = 0xFFFFF;
+        // 临界区内 delay 缩短, 万一抢到锁也快速释放
+        int delay = 0xFFF;
         while (delay)
             --delay;
 
         printf("[Writer] leave  CR\n");
         rwLock.writeUnlock();
 
+        // 临界区外 delay 保持较大, 给读者足够时间重入
         delay = 0xFFFFF;
         while (delay)
             --delay;
@@ -85,12 +89,14 @@ void first_thread(void *arg)
     rwLock.initialize();
     shared_data = 0;
 
-    programManager.executeThread(writer_thread, nullptr, "writer", 1);
+    // 先创建全部读者 — 让读者抢占 wrtLock, 造成写者饥饿
     programManager.executeThread(reader_thread, (void *)1, "reader1", 1);
     programManager.executeThread(reader_thread, (void *)2, "reader2", 1);
     programManager.executeThread(reader_thread, (void *)3, "reader3", 1);
     programManager.executeThread(reader_thread, (void *)4, "reader4", 1);
     programManager.executeThread(reader_thread, (void *)5, "reader5", 1);
+    // 最后创建写者 — 此时 wrtLock 已被读者持有, 写者阻塞到所有读者结束
+    programManager.executeThread(writer_thread, nullptr, "writer", 1);
 
     asm_halt();
 }

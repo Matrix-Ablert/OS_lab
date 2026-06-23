@@ -1,0 +1,4 @@
+interface:
+  display_name: "OS Lab Skill"
+  short_description: "Draft OS lab reports with curated references."
+  default_prompt: "Use $os-lab-skill to draft or revise a Chinese operating-system lab report section."

@@ -33,7 +33,7 @@ void first_thread(void *arg)
             printf("Allocation #%d failed!\n", i + 1);
             break;
         }
-        // 模拟访问：每隔2个页标记为已访问（写入一个值）
+        // 模拟2访问：每隔个页标记为已访问（写入一个值）
         if (i % 3 == 0)
         {
             *pages[i] = 0xAA;

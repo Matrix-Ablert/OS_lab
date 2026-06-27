@@ -36,6 +36,9 @@ void delay_ticks(uint32 count)
 
 void first_process()
 {
+    // === 场景1：僵尸进程 ===
+    // child1 fork 后立即 exit(11)，父进程故意不调用 wait，
+    // 因此 child1 会先变成 DEAD 状态（僵尸）。
     int child1 = fork();
 
     if (child1 == -1)
@@ -46,15 +49,18 @@ void first_process()
 
     if (child1 == 0)
     {
-        // child1 立即退出；父进程不 wait，因此它会先变成僵尸进程。
+        // 子进程 child1：立即退出，父进程不 wait → 将成为僵尸进程
         printf("child1 pid: %d, exit(11)\n", programManager.running->pid);
         exit(11);
     }
 
-    // 给 child1 足够多的时钟片先退出，稳定制造“父进程未 wait 的 DEAD 子进程”。
+    // 父进程延迟，确保 child1 先执行完并变成 DEAD 状态
     delay_ticks(0x4ffffff);
     printf("parent pid: %d, child1 pid: %d\n", programManager.running->pid, child1);
 
+    // === 场景2：孤儿进程 ===
+    // child2 fork 后延迟退出，父进程会先 exit(99)，
+    // 因此 child2 将成为孤儿进程。
     int child2 = fork();
 
     if (child2 == -1)
@@ -65,12 +71,16 @@ void first_process()
 
     if (child2 == 0)
     {
-        // child2 延迟退出；父进程会先退出，因此它会被托管给 reaper。
+        // 子进程 child2：延迟退出，父进程会先 exit → 将成为孤儿进程
         delay_ticks(0xffffff);
         printf("child2 pid: %d, exit(22)\n", programManager.running->pid);
         exit(22);
     }
 
+    // 父进程：不调用 wait，直接 exit
+    // exit(99) 内部会调用 adoptOrReleaseChildren：
+    //   - child1(DEAD) → releasePCB 回收僵尸
+    //   - child2(存活) → parentPid = 0 托管给 reaper
     printf("parent pid: %d, child2 pid: %d\n", programManager.running->pid, child2);
     printf("parent pid: %d, exit without wait\n", programManager.running->pid);
     exit(99);
@@ -79,7 +89,8 @@ void first_process()
 void observer_thread(void *arg)
 {
     // 等待父进程和两个子进程都经历退出/回收路径后，再打印最终状态。
-    delay_ticks(0x3ffffff);
+    // 延迟时间需要覆盖：父进程 exit + child2 delay + child2 exit + schedule回收
+    delay_ticks(0x7ffffff);
     printf("observer: cleanup finished, programs: %d\n",
            programManager.allPrograms.size());
     asm_halt();
@@ -87,7 +98,11 @@ void observer_thread(void *arg)
 
 void first_thread(void *arg)
 {
-
+    // === 测试僵尸进程与孤儿进程处理 ===
+    // 创建 first_process 作为父进程，它 fork 两个子进程后直接 exit(99) 不 wait：
+    //   - child1：先退出 → 僵尸进程 → 父进程 exit 时被 adoptOrReleaseChildren 回收
+    //   - child2：父进程先退出 → 孤儿进程 → 托管给 reaper → 退出时由 schedule 自动回收
+    // observer_thread 延迟后打印最终 allPrograms 数量，验证无残留 PCB。
     printf("start zombie/orphan test\n");
     programManager.executeProcess((const char *)first_process, 1);
     programManager.executeThread(observer_thread, nullptr, "observer", 1);

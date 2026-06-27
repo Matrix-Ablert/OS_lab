@@ -1,0 +1,101 @@
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0xC0010000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0xC00107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0xC0010F9C
+ATA disk driver initialized.
+start process
+ ____  _   _ __  __ __  __ _____ ____
+/ ___|| | | |  \/  |  \/  | ____|  _ \
+\___ \| | | | |\/| | |\/| |  _| | |_) |
+ ___) | |_| | |  | | |  | | |___|  _ <
+|____/ \___/|_|  |_|_|  |_|_____|_| \_\
+SUMMER OS - FAT16 File System Lab
+
+
+==============================================
+      FAT16 File System Demo
+==============================================
+
+[Step 1] Formatting file system...
+Formatting FAT16 filesystem...
+Format complete. FAT16 filesystem ready.
+
+[Step 2] File system info:
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 0 (0 bytes)
+  Free clusters : 8190 (4193280 bytes)
+  Max files     : 512
+
+[Step 3] Creating files...
+  Created: hello.txt
+  Created: data.bin
+  Created: readme
+
+[Step 4] Listing files:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+hello.txt  0  0
+data.bin  0  0
+readme  0  0
+-------------------------------
+Total: 3 file(s)
+
+[Step 5] Writing to files...
+  Wrote 19 bytes to hello.txt
+  Wrote 40 bytes to readme
+  Wrote 29 bytes to data.bin
+
+[Step 6] Listing files after write:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+hello.txt  19  2
+data.bin  29  4
+readme  40  3
+-------------------------------
+Total: 3 file(s)
+
+[Step 7] Reading files...
+  hello.txt (19 bytes): Hello, FAT16 World!
+  readme (40 bytes): This is a README file for our simple OS.
+
+[Step 8] Deleting data.bin...
+  Deleted: data.bin
+
+[Step 9] Listing files after delete:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+hello.txt  19  2
+readme  40  3
+-------------------------------
+Total: 2 file(s)
+
+[Step 10] Try reading deleted file...
+Error: file 'data.bin' not found
+
+[Step 11] Overwriting hello.txt...
+  hello.txt now: Content has been updated!
+
+[Step 12] Final file system info:
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 2 (1024 bytes)
+  Free clusters : 8188 (4192256 bytes)
+  Max files     : 512
+
+==============================================
+      Demo Complete!
+==============================================

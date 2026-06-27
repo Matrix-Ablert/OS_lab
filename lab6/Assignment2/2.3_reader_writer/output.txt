@@ -1,69 +1,727 @@
 === Reader-Writer (Reader-Priority) ===
-5 Readers + 1 Writer -> Writer Starvation
+6 Readers + 1 Writer -> Writer Starvation
 
-[Writer] trying to enter CR...
-[Writer] WRITE: shared_data = 1
-[Writer] leave  CR
-[Writer] trying to enter CR...
-[Writer] WRITE: shared_data = 2
-[Writer] leave  CR
-[Writer] trying to enter CR...
-[Writer] WRITE: shared_data = 3
+[Reader 1] enter  CR, round=1, shared_data=0
+[Reader 2] enter  CR, round=1, shared_data=0
+[Reader 3] enter  CR, round=1, shared_data=0
+[Reader 4] enter  CR, round=1, shared_data=0
+[Reader 5] enter  CR, round=1, shared_data=0
+[Reader 6] enter  CR, round=1, shared_data=0
+[Writer] waiting for write lock...
+[Reader 1] leave  CR, round=1
+[Reader 1] bypass writer, round=2, bypassCount=1
+[Reader 1] enter  CR, round=2, shared_data=0
+[Reader 2] leave  CR, round=1
+[Reader 2] bypass writer, round=2, bypassCount=2
+[Reader 2] enter  CR, round=2, shared_data=0
+[Reader 3] leave  CR, round=1
+[Reader 3] bypass writer, round=2, bypassCount=3
+[Reader 3] enter  CR, round=2, shared_data=0
+[Reader 4] leave  CR, round=1
+[Reader 4] bypass writer, round=2, bypassCount=4
+[Reader 4] enter  CR, round=2, shared_data=0
+[Reader 5] leave  CR, round=1
+[Reader 5] bypass writer, round=2, bypassCount=5
+[Reader 5] enter  CR, round=2, shared_data=0
+[Reader 6] leave  CR, round=1
+[Reader 6] bypass writer, round=2, bypassCount=6
+[Reader 6] enter  CR, round=2, shared_data=0
+[Reader 1] leave  CR, round=2
+[Reader 1] bypass writer, round=3, bypassCount=7
+[Reader 1] enter  CR, round=3, shared_data=0
+[Reader 2] leave  CR, round=2
+[Reader 2] bypass writer, round=3, bypassCount=8
+[Reader 2] enter  CR, round=3, shared_data=0
+[Reader 3] leave  CR, round=2
+[Reader 3] bypass writer, round=3, bypassCount=9
+[Reader 3] enter  CR, round=3, shared_data=0
+[Reader 4] leave  CR, round=2
+[Reader 4] bypass writer, round=3, bypassCount=10
+[Reader 4] enter  CR, round=3, shared_data=0
+[Reader 5] leave  CR, round=2
+[Reader 5] bypass writer, round=3, bypassCount=11
+[Reader 5] enter  CR, round=3, shared_data=0
+[Reader 6] leave  CR, round=2
+[Reader 6] bypass writer, round=3, bypassCount=12
+[Reader 6] enter  CR, round=3, shared_data=0
+[Reader 1] leave  CR, round=3
+[Reader 1] bypass writer, round=4, bypassCount=13
+[Reader 1] enter  CR, round=4, shared_data=0
+[Reader 2] leave  CR, round=3
+[Reader 2] bypass writer, round=4, bypassCount=14
+[Reader 2] enter  CR, round=4, shared_data=0
+[Reader 3] leave  CR, round=3
+[Reader 3] bypass writer, round=4, bypassCount=15
+[Reader 3] enter  CR, round=4, shared_data=0
+[Reader 4] leave  CR, round=3
+[Reader 4] bypass writer, round=4, bypassCount=16
+[Reader 4] enter  CR, round=4, shared_data=0
+[Reader 5] leave  CR, round=3
+[Reader 5] bypass writer, round=4, bypassCount=17
+[Reader 5] enter  CR, round=4, shared_data=0
+[Reader 6] leave  CR, round=3
+[Reader 6] bypass writer, round=4, bypassCount=18
+[Reader 6] enter  CR, round=4, shared_data=0
+[Reader 1] leave  CR, round=4
+[Reader 1] bypass writer, round=5, bypassCount=19
+[Reader 1] enter  CR, round=5, shared_data=0
+[Reader 2] leave  CR, round=4
+[Reader 2] bypass writer, round=5, bypassCount=20
+[Reader 2] enter  CR, round=5, shared_data=0
+[Reader 3] leave  CR, round=4
+[Reader 3] bypass writer, round=5, bypassCount=21
+[Reader 3] enter  CR, round=5, shared_data=0
+[Reader 4] leave  CR, round=4
+[Reader 4] bypass writer, round=5, bypassCount=22
+[Reader 4] enter  CR, round=5, shared_data=0
+[Reader 5] leave  CR, round=4
+[Reader 5] bypass writer, round=5, bypassCount=23
+[Reader 5] enter  CR, round=5, shared_data=0
+[Reader 6] leave  CR, round=4
+[Reader 6] bypass writer, round=5, bypassCount=24
+[Reader 6] enter  CR, round=5, shared_data=0
+[Reader 1] leave  CR, round=5
+[Reader 1] bypass writer, round=6, bypassCount=25
+[Reader 1] enter  CR, round=6, shared_data=0
+[Reader 2] leave  CR, round=5
+[Reader 2] bypass writer, round=6, bypassCount=26
+[Reader 2] enter  CR, round=6, shared_data=0
+[Reader 3] leave  CR, round=5
+[Reader 3] bypass writer, round=6, bypassCount=27
+[Reader 3] enter  CR, round=6, shared_data=0
+[Reader 4] leave  CR, round=5
+[Reader 4] bypass writer, round=6, bypassCount=28
+[Reader 4] enter  CR, round=6, shared_data=0
+[Reader 5] leave  CR, round=5
+[Reader 5] bypass writer, round=6, bypassCount=29
+[Reader 5] enter  CR, round=6, shared_data=0
+[Reader 6] leave  CR, round=5
+[Reader 6] bypass writer, round=6, bypassCount=30
+[Reader 6] enter  CR, round=6, shared_data=0
+[Reader 1] leave  CR, round=6
+[Reader 1] bypass writer, round=7, bypassCount=31
+[Reader 1] enter  CR, round=7, shared_data=0
+[Reader 2] leave  CR, round=6
+[Reader 2] bypass writer, round=7, bypassCount=32
+[Reader 2] enter  CR, round=7, shared_data=0
+[Reader 3] leave  CR, round=6
+[Reader 3] bypass writer, round=7, bypassCount=33
+[Reader 3] enter  CR, round=7, shared_data=0
+[Reader 4] leave  CR, round=6
+[Reader 4] bypass writer, round=7, bypassCount=34
+[Reader 4] enter  CR, round=7, shared_data=0
+[Reader 5] leave  CR, round=6
+[Reader 5] bypass writer, round=7, bypassCount=35
+[Reader 5] enter  CR, round=7, shared_data=0
+[Reader 6] leave  CR, round=6
+[Reader 6] bypass writer, round=7, bypassCount=36
+[Reader 6] enter  CR, round=7, shared_data=0
+[Reader 1] leave  CR, round=7
+[Reader 1] bypass writer, round=8, bypassCount=37
+[Reader 1] enter  CR, round=8, shared_data=0
+[Reader 2] leave  CR, round=7
+[Reader 2] bypass writer, round=8, bypassCount=38
+[Reader 2] enter  CR, round=8, shared_data=0
+[Reader 3] leave  CR, round=7
+[Reader 3] bypass writer, round=8, bypassCount=39
+[Reader 3] enter  CR, round=8, shared_data=0
+[Reader 4] leave  CR, round=7
+[Reader 4] bypass writer, round=8, bypassCount=40
+[Reader 4] enter  CR, round=8, shared_data=0
+[Reader 5] leave  CR, round=7
+[Reader 5] bypass writer, round=8, bypassCount=41
+[Reader 5] enter  CR, round=8, shared_data=0
+[Reader 6] leave  CR, round=7
+[Reader 6] bypass writer, round=8, bypassCount=42
+[Reader 6] enter  CR, round=8, shared_data=0
+[Reader 1] leave  CR, round=8
+[Reader 1] bypass writer, round=9, bypassCount=43
+[Reader 1] enter  CR, round=9, shared_data=0
+[Reader 2] leave  CR, round=8
+[Reader 2] bypass writer, round=9, bypassCount=44
+[Reader 2] enter  CR, round=9, shared_data=0
+[Reader 3] leave  CR, round=8
+[Reader 3] bypass writer, round=9, bypassCount=45
+[Reader 3] enter  CR, round=9, shared_data=0
+[Reader 4] leave  CR, round=8
+[Reader 4] bypass writer, round=9, bypassCount=46
+[Reader 4] enter  CR, round=9, shared_data=0
+[Reader 5] leave  CR, round=8
+[Reader 5] bypass writer, round=9, bypassCount=47
+[Reader 5] enter  CR, round=9, shared_data=0
+[Reader 6] leave  CR, round=8
+[Reader 6] bypass writer, round=9, bypassCount=48
+[Reader 6] enter  CR, round=9, shared_data=0
+[Reader 1] leave  CR, round=9
+[Reader 1] bypass writer, round=10, bypassCount=49
+[Reader 1] enter  CR, round=10, shared_data=0
+[Reader 2] leave  CR, round=9
+[Reader 2] bypass writer, round=10, bypassCount=50
+[Reader 2] enter  CR, round=10, shared_data=0
+[Reader 3] leave  CR, round=9
+[Reader 3] bypass writer, round=10, bypassCount=51
+[Reader 3] enter  CR, round=10, shared_data=0
+[Reader 4] leave  CR, round=9
+[Reader 4] bypass writer, round=10, bypassCount=52
+[Reader 4] enter  CR, round=10, shared_data=0
+[Reader 5] leave  CR, round=9
+[Reader 5] bypass writer, round=10, bypassCount=53
+[Reader 5] enter  CR, round=10, shared_data=0
+[Reader 6] leave  CR, round=9
+[Reader 6] bypass writer, round=10, bypassCount=54
+[Reader 6] enter  CR, round=10, shared_data=0
+[Reader 1] leave  CR, round=10
+[Reader 1] bypass writer, round=11, bypassCount=55
+[Reader 1] enter  CR, round=11, shared_data=0
+[Reader 2] leave  CR, round=10
+[Reader 2] bypass writer, round=11, bypassCount=56
+[Reader 2] enter  CR, round=11, shared_data=0
+[Reader 3] leave  CR, round=10
+[Reader 3] bypass writer, round=11, bypassCount=57
+[Reader 3] enter  CR, round=11, shared_data=0
+[Reader 4] leave  CR, round=10
+[Reader 4] bypass writer, round=11, bypassCount=58
+[Reader 4] enter  CR, round=11, shared_data=0
+[Reader 5] leave  CR, round=10
+[Reader 5] bypass writer, round=11, bypassCount=59
+[Reader 5] enter  CR, round=11, shared_data=0
+[Reader 6] leave  CR, round=10
+[Reader 6] bypass writer, round=11, bypassCount=60
+[Reader 6] enter  CR, round=11, shared_data=0
+[Reader 1] leave  CR, round=11
+[Reader 1] bypass writer, round=12, bypassCount=61
+[Reader 1] enter  CR, round=12, shared_data=0
+[Reader 2] leave  CR, round=11
+[Reader 2] bypass writer, round=12, bypassCount=62
+[Reader 2] enter  CR, round=12, shared_data=0
+[Reader 3] leave  CR, round=11
+[Reader 3] bypass writer, round=12, bypassCount=63
+[Reader 3] enter  CR, round=12, shared_data=0
+[Reader 4] leave  CR, round=11
+[Reader 4] bypass writer, round=12, bypassCount=64
+[Reader 4] enter  CR, round=12, shared_data=0
+[Reader 5] leave  CR, round=11
+[Reader 5] bypass writer, round=12, bypassCount=65
+[Reader 5] enter  CR, round=12, shared_data=0
+[Reader 6] leave  CR, round=11
+[Reader 6] bypass writer, round=12, bypassCount=66
+[Reader 6] enter  CR, round=12, shared_data=0
+[Reader 1] leave  CR, round=12
+[Reader 1] bypass writer, round=13, bypassCount=67
+[Reader 1] enter  CR, round=13, shared_data=0
+[Reader 2] leave  CR, round=12
+[Reader 2] bypass writer, round=13, bypassCount=68
+[Reader 2] enter  CR, round=13, shared_data=0
+[Reader 3] leave  CR, round=12
+[Reader 3] bypass writer, round=13, bypassCount=69
+[Reader 3] enter  CR, round=13, shared_data=0
+[Reader 4] leave  CR, round=12
+[Reader 4] bypass writer, round=13, bypassCount=70
+[Reader 4] enter  CR, round=13, shared_data=0
+[Reader 5] leave  CR, round=12
+[Reader 5] bypass writer, round=13, bypassCount=71
+[Reader 5] enter  CR, round=13, shared_data=0
+[Reader 6] leave  CR, round=12
+[Reader 6] bypass writer, round=13, bypassCount=72
+[Reader 6] enter  CR, round=13, shared_data=0
+[Reader 1] leave  CR, round=13
+[Reader 1] bypass writer, round=14, bypassCount=73
+[Reader 1] enter  CR, round=14, shared_data=0
+[Reader 2] leave  CR, round=13
+[Reader 2] bypass writer, round=14, bypassCount=74
+[Reader 2] enter  CR, round=14, shared_data=0
+[Reader 3] leave  CR, round=13
+[Reader 3] bypass writer, round=14, bypassCount=75
+[Reader 3] enter  CR, round=14, shared_data=0
+[Reader 4] leave  CR, round=13
+[Reader 4] bypass writer, round=14, bypassCount=76
+[Reader 4] enter  CR, round=14, shared_data=0
+[Reader 5] leave  CR, round=13
+[Reader 5] bypass writer, round=14, bypassCount=77
+[Reader 5] enter  CR, round=14, shared_data=0
+[Reader 6] leave  CR, round=13
+[Reader 6] bypass writer, round=14, bypassCount=78
+[Reader 6] enter  CR, round=14, shared_data=0
+[Reader 1] leave  CR, round=14
+[Reader 1] bypass writer, round=15, bypassCount=79
+[Reader 1] enter  CR, round=15, shared_data=0
+[Reader 2] leave  CR, round=14
+[Reader 2] bypass writer, round=15, bypassCount=80
+[Reader 2] enter  CR, round=15, shared_data=0
+[Reader 3] leave  CR, round=14
+[Reader 3] bypass writer, round=15, bypassCount=81
+[Reader 3] enter  CR, round=15, shared_data=0
+[Reader 4] leave  CR, round=14
+[Reader 4] bypass writer, round=15, bypassCount=82
+[Reader 4] enter  CR, round=15, shared_data=0
+[Reader 5] leave  CR, round=14
+[Reader 5] bypass writer, round=15, bypassCount=83
+[Reader 5] enter  CR, round=15, shared_data=0
+[Reader 6] leave  CR, round=14
+[Reader 6] bypass writer, round=15, bypassCount=84
+[Reader 6] enter  CR, round=15, shared_data=0
+[Reader 1] leave  CR, round=15
+[Reader 1] bypass writer, round=16, bypassCount=85
+[Reader 1] enter  CR, round=16, shared_data=0
+[Reader 2] leave  CR, round=15
+[Reader 2] bypass writer, round=16, bypassCount=86
+[Reader 2] enter  CR, round=16, shared_data=0
+[Reader 3] leave  CR, round=15
+[Reader 3] bypass writer, round=16, bypassCount=87
+[Reader 3] enter  CR, round=16, shared_data=0
+[Reader 4] leave  CR, round=15
+[Reader 4] bypass writer, round=16, bypassCount=88
+[Reader 4] enter  CR, round=16, shared_data=0
+[Reader 5] leave  CR, round=15
+[Reader 5] bypass writer, round=16, bypassCount=89
+[Reader 5] enter  CR, round=16, shared_data=0
+[Reader 6] leave  CR, round=15
+[Reader 6] bypass writer, round=16, bypassCount=90
+[Reader 6] enter  CR, round=16, shared_data=0
+[Reader 1] leave  CR, round=16
+[Reader 1] bypass writer, round=17, bypassCount=91
+[Reader 1] enter  CR, round=17, shared_data=0
+[Reader 2] leave  CR, round=16
+[Reader 2] bypass writer, round=17, bypassCount=92
+[Reader 2] enter  CR, round=17, shared_data=0
+[Reader 3] leave  CR, round=16
+[Reader 3] bypass writer, round=17, bypassCount=93
+[Reader 3] enter  CR, round=17, shared_data=0
+[Reader 4] leave  CR, round=16
+[Reader 4] bypass writer, round=17, bypassCount=94
+[Reader 4] enter  CR, round=17, shared_data=0
+[Reader 5] leave  CR, round=16
+[Reader 5] bypass writer, round=17, bypassCount=95
+[Reader 5] enter  CR, round=17, shared_data=0
+[Reader 6] leave  CR, round=16
+[Reader 6] bypass writer, round=17, bypassCount=96
+[Reader 6] enter  CR, round=17, shared_data=0
+[Reader 1] leave  CR, round=17
+[Reader 1] bypass writer, round=18, bypassCount=97
+[Reader 1] enter  CR, round=18, shared_data=0
+[Reader 2] leave  CR, round=17
+[Reader 2] bypass writer, round=18, bypassCount=98
+[Reader 2] enter  CR, round=18, shared_data=0
+[Reader 3] leave  CR, round=17
+[Reader 3] bypass writer, round=18, bypassCount=99
+[Reader 3] enter  CR, round=18, shared_data=0
+[Reader 4] leave  CR, round=17
+[Reader 4] bypass writer, round=18, bypassCount=100
+[Reader 4] enter  CR, round=18, shared_data=0
+[Reader 5] leave  CR, round=17
+[Reader 5] bypass writer, round=18, bypassCount=101
+[Reader 5] enter  CR, round=18, shared_data=0
+[Reader 6] leave  CR, round=17
+[Reader 6] bypass writer, round=18, bypassCount=102
+[Reader 6] enter  CR, round=18, shared_data=0
+[Reader 1] leave  CR, round=18
+[Reader 1] bypass writer, round=19, bypassCount=103
+[Reader 1] enter  CR, round=19, shared_data=0
+[Reader 2] leave  CR, round=18
+[Reader 2] bypass writer, round=19, bypassCount=104
+[Reader 2] enter  CR, round=19, shared_data=0
+[Reader 3] leave  CR, round=18
+[Reader 3] bypass writer, round=19, bypassCount=105
+[Reader 3] enter  CR, round=19, shared_data=0
+[Reader 4] leave  CR, round=18
+[Reader 4] bypass writer, round=19, bypassCount=106
+[Reader 4] enter  CR, round=19, shared_data=0
+[Reader 5] leave  CR, round=18
+[Reader 5] bypass writer, round=19, bypassCount=107
+[Reader 5] enter  CR, round=19, shared_data=0
+[Reader 6] leave  CR, round=18
+[Reader 6] bypass writer, round=19, bypassCount=108
+[Reader 6] enter  CR, round=19, shared_data=0
+[Reader 1] leave  CR, round=19
+[Reader 1] bypass writer, round=20, bypassCount=109
+[Reader 1] enter  CR, round=20, shared_data=0
+[Reader 2] leave  CR, round=19
+[Reader 2] bypass writer, round=20, bypassCount=110
+[Reader 2] enter  CR, round=20, shared_data=0
+[Reader 3] leave  CR, round=19
+[Reader 3] bypass writer, round=20, bypassCount=111
+[Reader 3] enter  CR, round=20, shared_data=0
+[Reader 4] leave  CR, round=19
+[Reader 4] bypass writer, round=20, bypassCount=112
+[Reader 4] enter  CR, round=20, shared_data=0
+[Reader 5] leave  CR, round=19
+[Reader 5] bypass writer, round=20, bypassCount=113
+[Reader 5] enter  CR, round=20, shared_data=0
+[Reader 6] leave  CR, round=19
+[Reader 6] bypass writer, round=20, bypassCount=114
+[Reader 6] enter  CR, round=20, shared_data=0
+[Reader 1] leave  CR, round=20
+[Reader 1] bypass writer, round=21, bypassCount=115
+[Reader 1] enter  CR, round=21, shared_data=0
+[Reader 2] leave  CR, round=20
+[Reader 2] bypass writer, round=21, bypassCount=116
+[Reader 2] enter  CR, round=21, shared_data=0
+[Reader 3] leave  CR, round=20
+[Reader 3] bypass writer, round=21, bypassCount=117
+[Reader 3] enter  CR, round=21, shared_data=0
+[Reader 4] leave  CR, round=20
+[Reader 4] bypass writer, round=21, bypassCount=118
+[Reader 4] enter  CR, round=21, shared_data=0
+[Reader 5] leave  CR, round=20
+[Reader 5] bypass writer, round=21, bypassCount=119
+[Reader 5] enter  CR, round=21, shared_data=0
+[Reader 6] leave  CR, round=20
+[Reader 6] bypass writer, round=21, bypassCount=120
+[Reader 6] enter  CR, round=21, shared_data=0
+[Reader 1] leave  CR, round=21
+[Reader 1] bypass writer, round=22, bypassCount=121
+[Reader 1] enter  CR, round=22, shared_data=0
+[Reader 2] leave  CR, round=21
+[Reader 2] bypass writer, round=22, bypassCount=122
+[Reader 2] enter  CR, round=22, shared_data=0
+[Reader 3] leave  CR, round=21
+[Reader 3] bypass writer, round=22, bypassCount=123
+[Reader 3] enter  CR, round=22, shared_data=0
+[Reader 4] leave  CR, round=21
+[Reader 4] bypass writer, round=22, bypassCount=124
+[Reader 4] enter  CR, round=22, shared_data=0
+[Reader 5] leave  CR, round=21
+[Reader 5] bypass writer, round=22, bypassCount=125
+[Reader 5] enter  CR, round=22, shared_data=0
+[Reader 6] leave  CR, round=21
+[Reader 6] bypass writer, round=22, bypassCount=126
+[Reader 6] enter  CR, round=22, shared_data=0
+[Reader 1] leave  CR, round=22
+[Reader 1] bypass writer, round=23, bypassCount=127
+[Reader 1] enter  CR, round=23, shared_data=0
+[Reader 2] leave  CR, round=22
+[Reader 2] bypass writer, round=23, bypassCount=128
+[Reader 2] enter  CR, round=23, shared_data=0
+[Reader 3] leave  CR, round=22
+[Reader 3] bypass writer, round=23, bypassCount=129
+[Reader 3] enter  CR, round=23, shared_data=0
+[Reader 4] leave  CR, round=22
+[Reader 4] bypass writer, round=23, bypassCount=130
+[Reader 4] enter  CR, round=23, shared_data=0
+[Reader 5] leave  CR, round=22
+[Reader 5] bypass writer, round=23, bypassCount=131
+[Reader 5] enter  CR, round=23, shared_data=0
+[Reader 6] leave  CR, round=22
+[Reader 6] bypass writer, round=23, bypassCount=132
+[Reader 6] enter  CR, round=23, shared_data=0
+[Reader 1] leave  CR, round=23
+[Reader 1] bypass writer, round=24, bypassCount=133
+[Reader 1] enter  CR, round=24, shared_data=0
+[Reader 2] leave  CR, round=23
+[Reader 2] bypass writer, round=24, bypassCount=134
+[Reader 2] enter  CR, round=24, shared_data=0
+[Reader 3] leave  CR, round=23
+[Reader 3] bypass writer, round=24, bypassCount=135
+[Reader 3] enter  CR, round=24, shared_data=0
+[Reader 4] leave  CR, round=23
+[Reader 4] bypass writer, round=24, bypassCount=136
+[Reader 4] enter  CR, round=24, shared_data=0
+[Reader 5] leave  CR, round=23
+[Reader 5] bypass writer, round=24, bypassCount=137
+[Reader 5] enter  CR, round=24, shared_data=0
+[Reader 6] leave  CR, round=23
+[Reader 6] bypass writer, round=24, bypassCount=138
+[Reader 6] enter  CR, round=24, shared_data=0
+[Reader 1] leave  CR, round=24
+[Reader 1] bypass writer, round=25, bypassCount=139
+[Reader 1] enter  CR, round=25, shared_data=0
+[Reader 2] leave  CR, round=24
+[Reader 2] bypass writer, round=25, bypassCount=140
+[Reader 2] enter  CR, round=25, shared_data=0
+[Reader 3] leave  CR, round=24
+[Reader 3] bypass writer, round=25, bypassCount=141
+[Reader 3] enter  CR, round=25, shared_data=0
+[Reader 4] leave  CR, round=24
+[Reader 4] bypass writer, round=25, bypassCount=142
+[Reader 4] enter  CR, round=25, shared_data=0
+[Reader 5] leave  CR, round=24
+[Reader 5] bypass writer, round=25, bypassCount=143
+[Reader 5] enter  CR, round=25, shared_data=0
+[Reader 6] leave  CR, round=24
+[Reader 6] bypass writer, round=25, bypassCount=144
+[Reader 6] enter  CR, round=25, shared_data=0
+[Reader 1] leave  CR, round=25
+[Reader 1] bypass writer, round=26, bypassCount=145
+[Reader 1] enter  CR, round=26, shared_data=0
+[Reader 2] leave  CR, round=25
+[Reader 2] bypass writer, round=26, bypassCount=146
+[Reader 2] enter  CR, round=26, shared_data=0
+[Reader 3] leave  CR, round=25
+[Reader 3] bypass writer, round=26, bypassCount=147
+[Reader 3] enter  CR, round=26, shared_data=0
+[Reader 4] leave  CR, round=25
+[Reader 4] bypass writer, round=26, bypassCount=148
+[Reader 4] enter  CR, round=26, shared_data=0
+[Reader 5] leave  CR, round=25
+[Reader 5] bypass writer, round=26, bypassCount=149
+[Reader 5] enter  CR, round=26, shared_data=0
+[Reader 6] leave  CR, round=25
+[Reader 6] bypass writer, round=26, bypassCount=150
+[Reader 6] enter  CR, round=26, shared_data=0
+[Reader 1] leave  CR, round=26
+[Reader 1] bypass writer, round=27, bypassCount=151
+[Reader 1] enter  CR, round=27, shared_data=0
+[Reader 2] leave  CR, round=26
+[Reader 2] bypass writer, round=27, bypassCount=152
+[Reader 2] enter  CR, round=27, shared_data=0
+[Reader 3] leave  CR, round=26
+[Reader 3] bypass writer, round=27, bypassCount=153
+[Reader 3] enter  CR, round=27, shared_data=0
+[Reader 4] leave  CR, round=26
+[Reader 4] bypass writer, round=27, bypassCount=154
+[Reader 4] enter  CR, round=27, shared_data=0
+[Reader 5] leave  CR, round=26
+[Reader 5] bypass writer, round=27, bypassCount=155
+[Reader 5] enter  CR, round=27, shared_data=0
+[Reader 6] leave  CR, round=26
+[Reader 6] bypass writer, round=27, bypassCount=156
+[Reader 6] enter  CR, round=27, shared_data=0
+[Reader 1] leave  CR, round=27
+[Reader 1] bypass writer, round=28, bypassCount=157
+[Reader 1] enter  CR, round=28, shared_data=0
+[Reader 2] leave  CR, round=27
+[Reader 2] bypass writer, round=28, bypassCount=158
+[Reader 2] enter  CR, round=28, shared_data=0
+[Reader 3] leave  CR, round=27
+[Reader 3] bypass writer, round=28, bypassCount=159
+[Reader 3] enter  CR, round=28, shared_data=0
+[Reader 4] leave  CR, round=27
+[Reader 4] bypass writer, round=28, bypassCount=160
+[Reader 4] enter  CR, round=28, shared_data=0
+[Reader 5] leave  CR, round=27
+[Reader 5] bypass writer, round=28, bypassCount=161
+[Reader 5] enter  CR, round=28, shared_data=0
+[Reader 6] leave  CR, round=27
+[Reader 6] bypass writer, round=28, bypassCount=162
+[Reader 6] enter  CR, round=28, shared_data=0
+[Reader 1] leave  CR, round=28
+[Reader 1] bypass writer, round=29, bypassCount=163
+[Reader 1] enter  CR, round=29, shared_data=0
+[Reader 2] leave  CR, round=28
+[Reader 2] bypass writer, round=29, bypassCount=164
+[Reader 2] enter  CR, round=29, shared_data=0
+[Reader 3] leave  CR, round=28
+[Reader 3] bypass writer, round=29, bypassCount=165
+[Reader 3] enter  CR, round=29, shared_data=0
+[Reader 4] leave  CR, round=28
+[Reader 4] bypass writer, round=29, bypassCount=166
+[Reader 4] enter  CR, round=29, shared_data=0
+[Reader 5] leave  CR, round=28
+[Reader 5] bypass writer, round=29, bypassCount=167
+[Reader 5] enter  CR, round=29, shared_data=0
+[Reader 6] leave  CR, round=28
+[Reader 6] bypass writer, round=29, bypassCount=168
+[Reader 6] enter  CR, round=29, shared_data=0
+[Reader 1] leave  CR, round=29
+[Reader 1] bypass writer, round=30, bypassCount=169
+[Reader 1] enter  CR, round=30, shared_data=0
+[Reader 2] leave  CR, round=29
+[Reader 2] bypass writer, round=30, bypassCount=170
+[Reader 2] enter  CR, round=30, shared_data=0
+[Reader 3] leave  CR, round=29
+[Reader 3] bypass writer, round=30, bypassCount=171
+[Reader 3] enter  CR, round=30, shared_data=0
+[Reader 4] leave  CR, round=29
+[Reader 4] bypass writer, round=30, bypassCount=172
+[Reader 4] enter  CR, round=30, shared_data=0
+[Reader 5] leave  CR, round=29
+[Reader 5] bypass writer, round=30, bypassCount=173
+[Reader 5] enter  CR, round=30, shared_data=0
+[Reader 6] leave  CR, round=29
+[Reader 6] bypass writer, round=30, bypassCount=174
+[Reader 6] enter  CR, round=30, shared_data=0
+[Reader 1] leave  CR, round=30
+[Reader 1] bypass writer, round=31, bypassCount=175
+[Reader 1] enter  CR, round=31, shared_data=0
+[Reader 2] leave  CR, round=30
+[Reader 2] bypass writer, round=31, bypassCount=176
+[Reader 2] enter  CR, round=31, shared_data=0
+[Reader 3] leave  CR, round=30
+[Reader 3] bypass writer, round=31, bypassCount=177
+[Reader 3] enter  CR, round=31, shared_data=0
+[Reader 4] leave  CR, round=30
+[Reader 4] bypass writer, round=31, bypassCount=178
+[Reader 4] enter  CR, round=31, shared_data=0
+[Reader 5] leave  CR, round=30
+[Reader 5] bypass writer, round=31, bypassCount=179
+[Reader 5] enter  CR, round=31, shared_data=0
+[Reader 6] leave  CR, round=30
+[Reader 6] bypass writer, round=31, bypassCount=180
+[Reader 6] enter  CR, round=31, shared_data=0
+[Reader 1] leave  CR, round=31
+[Reader 1] bypass writer, round=32, bypassCount=181
+[Reader 1] enter  CR, round=32, shared_data=0
+[Reader 2] leave  CR, round=31
+[Reader 2] bypass writer, round=32, bypassCount=182
+[Reader 2] enter  CR, round=32, shared_data=0
+[Reader 3] leave  CR, round=31
+[Reader 3] bypass writer, round=32, bypassCount=183
+[Reader 3] enter  CR, round=32, shared_data=0
+[Reader 4] leave  CR, round=31
+[Reader 4] bypass writer, round=32, bypassCount=184
+[Reader 4] enter  CR, round=32, shared_data=0
+[Reader 5] leave  CR, round=31
+[Reader 5] bypass writer, round=32, bypassCount=185
+[Reader 5] enter  CR, round=32, shared_data=0
+[Reader 6] leave  CR, round=31
+[Reader 6] bypass writer, round=32, bypassCount=186
+[Reader 6] enter  CR, round=32, shared_data=0
+[Reader 1] leave  CR, round=32
+[Reader 1] bypass writer, round=33, bypassCount=187
+[Reader 1] enter  CR, round=33, shared_data=0
+[Reader 2] leave  CR, round=32
+[Reader 2] bypass writer, round=33, bypassCount=188
+[Reader 2] enter  CR, round=33, shared_data=0
+[Reader 3] leave  CR, round=32
+[Reader 3] bypass writer, round=33, bypassCount=189
+[Reader 3] enter  CR, round=33, shared_data=0
+[Reader 4] leave  CR, round=32
+[Reader 4] bypass writer, round=33, bypassCount=190
+[Reader 4] enter  CR, round=33, shared_data=0
+[Reader 5] leave  CR, round=32
+[Reader 5] bypass writer, round=33, bypassCount=191
+[Reader 5] enter  CR, round=33, shared_data=0
+[Reader 6] leave  CR, round=32
+[Reader 6] bypass writer, round=33, bypassCount=192
+[Reader 6] enter  CR, round=33, shared_data=0
+[Reader 1] leave  CR, round=33
+[Reader 1] bypass writer, round=34, bypassCount=193
+[Reader 1] enter  CR, round=34, shared_data=0
+[Reader 2] leave  CR, round=33
+[Reader 2] bypass writer, round=34, bypassCount=194
+[Reader 2] enter  CR, round=34, shared_data=0
+[Reader 3] leave  CR, round=33
+[Reader 3] bypass writer, round=34, bypassCount=195
+[Reader 3] enter  CR, round=34, shared_data=0
+[Reader 4] leave  CR, round=33
+[Reader 4] bypass writer, round=34, bypassCount=196
+[Reader 4] enter  CR, round=34, shared_data=0
+[Reader 5] leave  CR, round=33
+[Reader 5] bypass writer, round=34, bypassCount=197
+[Reader 5] enter  CR, round=34, shared_data=0
+[Reader 6] leave  CR, round=33
+[Reader 6] bypass writer, round=34, bypassCount=198
+[Reader 6] enter  CR, round=34, shared_data=0
+[Reader 1] leave  CR, round=34
+[Reader 1] bypass writer, round=35, bypassCount=199
+[Reader 1] enter  CR, round=35, shared_data=0
+[Reader 2] leave  CR, round=34
+[Reader 2] bypass writer, round=35, bypassCount=200
+[Reader 2] enter  CR, round=35, shared_data=0
+[Reader 3] leave  CR, round=34
+[Reader 3] bypass writer, round=35, bypassCount=201
+[Reader 3] enter  CR, round=35, shared_data=0
+[Reader 4] leave  CR, round=34
+[Reader 4] bypass writer, round=35, bypassCount=202
+[Reader 4] enter  CR, round=35, shared_data=0
+[Reader 5] leave  CR, round=34
+[Reader 5] bypass writer, round=35, bypassCount=203
+[Reader 5] enter  CR, round=35, shared_data=0
+[Reader 6] leave  CR, round=34
+[Reader 6] bypass writer, round=35, bypassCount=204
+[Reader 6] enter  CR, round=35, shared_data=0
+[Reader 1] leave  CR, round=35
+[Reader 1] bypass writer, round=36, bypassCount=205
+[Reader 1] enter  CR, round=36, shared_data=0
+[Reader 2] leave  CR, round=35
+[Reader 2] bypass writer, round=36, bypassCount=206
+[Reader 2] enter  CR, round=36, shared_data=0
+[Reader 3] leave  CR, round=35
+[Reader 3] bypass writer, round=36, bypassCount=207
+[Reader 3] enter  CR, round=36, shared_data=0
+[Reader 4] leave  CR, round=35
+[Reader 4] bypass writer, round=36, bypassCount=208
+[Reader 4] enter  CR, round=36, shared_data=0
+[Reader 5] leave  CR, round=35
+[Reader 5] bypass writer, round=36, bypassCount=209
+[Reader 5] enter  CR, round=36, shared_data=0
+[Reader 6] leave  CR, round=35
+[Reader 6] bypass writer, round=36, bypassCount=210
+[Reader 6] enter  CR, round=36, shared_data=0
+[Reader 1] leave  CR, round=36
+[Reader 1] bypass writer, round=37, bypassCount=211
+[Reader 1] enter  CR, round=37, shared_data=0
+[Reader 2] leave  CR, round=36
+[Reader 2] bypass writer, round=37, bypassCount=212
+[Reader 2] enter  CR, round=37, shared_data=0
+[Reader 3] leave  CR, round=36
+[Reader 3] bypass writer, round=37, bypassCount=213
+[Reader 3] enter  CR, round=37, shared_data=0
+[Reader 4] leave  CR, round=36
+[Reader 4] bypass writer, round=37, bypassCount=214
+[Reader 4] enter  CR, round=37, shared_data=0
+[Reader 5] leave  CR, round=36
+[Reader 5] bypass writer, round=37, bypassCount=215
+[Reader 5] enter  CR, round=37, shared_data=0
+[Reader 6] leave  CR, round=36
+[Reader 6] bypass writer, round=37, bypassCount=216
+[Reader 6] enter  CR, round=37, shared_data=0
+[Reader 1] leave  CR, round=37
+[Reader 1] bypass writer, round=38, bypassCount=217
+[Reader 1] enter  CR, round=38, shared_data=0
+[Reader 2] leave  CR, round=37
+[Reader 2] bypass writer, round=38, bypassCount=218
+[Reader 2] enter  CR, round=38, shared_data=0
+[Reader 3] leave  CR, round=37
+[Reader 3] bypass writer, round=38, bypassCount=219
+[Reader 3] enter  CR, round=38, shared_data=0
+[Reader 4] leave  CR, round=37
+[Reader 4] bypass writer, round=38, bypassCount=220
+[Reader 4] enter  CR, round=38, shared_data=0
+[Reader 5] leave  CR, round=37
+[Reader 5] bypass writer, round=38, bypassCount=221
+[Reader 5] enter  CR, round=38, shared_data=0
+[Reader 6] leave  CR, round=37
+[Reader 6] bypass writer, round=38, bypassCount=222
+[Reader 6] enter  CR, round=38, shared_data=0
+[Reader 1] leave  CR, round=38
+[Reader 1] bypass writer, round=39, bypassCount=223
+[Reader 1] enter  CR, round=39, shared_data=0
+[Reader 2] leave  CR, round=38
+[Reader 2] bypass writer, round=39, bypassCount=224
+[Reader 2] enter  CR, round=39, shared_data=0
+[Reader 3] leave  CR, round=38
+[Reader 3] bypass writer, round=39, bypassCount=225
+[Reader 3] enter  CR, round=39, shared_data=0
+[Reader 4] leave  CR, round=38
+[Reader 4] bypass writer, round=39, bypassCount=226
+[Reader 4] enter  CR, round=39, shared_data=0
+[Reader 5] leave  CR, round=38
+[Reader 5] bypass writer, round=39, bypassCount=227
+[Reader 5] enter  CR, round=39, shared_data=0
+[Reader 6] leave  CR, round=38
+[Reader 6] bypass writer, round=39, bypassCount=228
+[Reader 6] enter  CR, round=39, shared_data=0
+[Reader 1] leave  CR, round=39
+[Reader 1] bypass writer, round=40, bypassCount=229
+[Reader 1] enter  CR, round=40, shared_data=0
+[Reader 2] leave  CR, round=39
+[Reader 2] bypass writer, round=40, bypassCount=230
+[Reader 2] enter  CR, round=40, shared_data=0
+[Reader 3] leave  CR, round=39
+[Reader 3] bypass writer, round=40, bypassCount=231
+[Reader 3] enter  CR, round=40, shared_data=0
+[Reader 4] leave  CR, round=39
+[Reader 4] bypass writer, round=40, bypassCount=232
+[Reader 4] enter  CR, round=40, shared_data=0
+[Reader 5] leave  CR, round=39
+[Reader 5] bypass writer, round=40, bypassCount=233
+[Reader 5] enter  CR, round=40, shared_data=0
+[Reader 6] leave  CR, round=39
+[Reader 6] bypass writer, round=40, bypassCount=234
+[Reader 6] enter  CR, round=40, shared_data=0
+[Reader 1] leave  CR, round=40
+[Reader 1] all done!
+[Reader 2] leave  CR, round=40
+[Reader 2] all done!
+[Reader 3] leave  CR, round=40
+[Reader 3] all done!
+[Reader 4] leave  CR, round=40
+[Reader 4] all done!
+[Reader 5] leave  CR, round=40
+[Reader 5] all done!
+[Reader 6] leave  CR, round=40
+[Reader 6] all done!
+[Writer] WRITE after 234 reader bypasses, shared_data=1
 [Writer] leave  CR
 [Writer] all done!
-[Reader 1] enter  CR, shared_data = 3
-[Reader 1] leave  CR
-[Reader 1] enter  CR, shared_data = 3
-[Reader 1] leave  CR
-[Reader 1] enter  CR, shared_data = 3
-[Reader 1] leave  CR
-[Reader 1] enter  CR, shared_data = 3
-[Reader 1] leave  CR
-[Reader 1] enter  CR, shared_data = 3
-[Reader 1] leave  CR
-[Reader 1] all done!
-[Reader 2] enter  CR, shared_data = 3
-[Reader 2] leave  CR
-[Reader 2] enter  CR, shared_data = 3
-[Reader 2] leave  CR
-[Reader 2] enter  CR, shared_data = 3
-[Reader 2] leave  CR
-[Reader 2] enter  CR, shared_data = 3
-[Reader 2] leave  CR
-[Reader 2] enter  CR, shared_data = 3
-[Reader 2] leave  CR
-[Reader 2] all done!
-[Reader 3] enter  CR, shared_data = 3
-[Reader 3] leave  CR
-[Reader 3] enter  CR, shared_data = 3
-[Reader 3] leave  CR
-[Reader 3] enter  CR, shared_data = 3
-[Reader 3] leave  CR
-[Reader 3] enter  CR, shared_data = 3
-[Reader 3] leave  CR
-[Reader 3] enter  CR, shared_data = 3
-[Reader 3] leave  CR
-[Reader 3] all done!
-[Reader 4] enter  CR, shared_data = 3
-[Reader 4] leave  CR
-[Reader 4] enter  CR, shared_data = 3
-[Reader 4] leave  CR
-[Reader 4] enter  CR, shared_data = 3
-[Reader 4] leave  CR
-[Reader 4] enter  CR, shared_data = 3
-[Reader 4] leave  CR
-[Reader 4] enter  CR, shared_data = 3
-[Reader 4] leave  CR
-[Reader 4] all done!
-[Reader 5] enter  CR, shared_data = 3
-[Reader 5] leave  CR
-[Reader 5] enter  CR, shared_data = 3
-[Reader 5] leave  CR
-[Reader 5] enter  CR, shared_data = 3
-[Reader 5] leave  CR
-[Reader 5] enter  CR, shared_data = 3
-[Reader 5] leave  CR
-[Reader 5] enter  CR, shared_data = 3
-[Reader 5] leave  CR
-[Reader 5] all done!
-

@@ -1,0 +1,84 @@
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0xC0010000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0xC00107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0xC0010F9C
+ATA disk driver initialized.
+start process
+ ____  _   _ __  __ __  __ _____ ____
+/ ___|| | | |  \/  |  \/  | ____|  _ \
+\___ \| | | | |\/| | |\/| |  _| | |_) |
+ ___) | |_| | |  | | |  | | |___|  _ <
+|____/ \___/|_|  |_|_|  |_|_____|_| \_\
+SUMMER OS - FAT16 File System Lab
+
+
+==============================================
+      Assignment3.2 Space and Fragmentation Test
+==============================================
+
+[Step 1] Formatting file system...
+Formatting FAT16 filesystem...
+Format complete. FAT16 filesystem ready.
+
+[Step 2] Creating contiguous multi-cluster files...
+  first.bin size 1536 bytes
+  gap.bin size 1024 bytes
+  tail.bin size 1024 bytes
+
+[Step 3] Cluster counts before fragmentation:
+  first.bin clusters: 3
+  gap.bin clusters  : 2
+  tail.bin clusters : 2
+  fragmentation     : 0%
+
+[Step 4] Listing files before delete:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+first.bin  1536  2
+gap.bin  1024  5
+tail.bin  1024  7
+-------------------------------
+Total: 3 file(s)
+
+[Step 5] Deleting gap.bin to create a free hole...
+  Deleted: gap.bin
+
+[Step 6] Creating new.bin across the hole and later space...
+  new.bin size 2048 bytes
+
+[Step 7] Listing files after fragmented allocation:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+first.bin  1536  2
+new.bin  2048  5
+tail.bin  1024  7
+-------------------------------
+Total: 3 file(s)
+
+[Step 8] Cluster counts and fragmentation after new.bin:
+  first.bin clusters: 3
+  tail.bin clusters : 2
+  new.bin clusters  : 4
+  fragmentation     : 16%
+
+[Step 9] Final file system info:
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 9 (4608 bytes)
+  Free clusters : 8181 (4188672 bytes)
+  Max files     : 512
+
+==============================================
+      Demo Complete!
+==============================================

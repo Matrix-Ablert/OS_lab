@@ -12,7 +12,9 @@
 const int PCB_SIZE = 4096;                   // PCB的大小，4KB。
 char PCB_SET[PCB_SIZE * MAX_PROGRAM_AMOUNT]; // 存放PCB的数组，预留了MAX_PROGRAM_AMOUNT个PCB的大小空间。
 bool PCB_SET_STATUS[MAX_PROGRAM_AMOUNT];     // PCB的分配状态，true表示已经分配，false表示未分配。
-const int REAPER_PID = 0;                    // pid=0 的初始线程作为孤儿进程托管标记。
+const int REAPER_PID = 0;                    // pid=0 的初始线程(first_thread)作为孤儿进程托管标记。
+                                             // 孤儿进程被托管后将 parentPid 改为 0，
+                                             // 后续在 schedule() 中由 reaper 自动回收。
 
 ProgramManager::ProgramManager()
 {
@@ -114,11 +116,16 @@ void ProgramManager::schedule()
     }
     else if (running->status == ProgramStatus::DEAD)
     {
-        // 普通子进程保留给父进程 wait；线程和托管给 reaper 的孤儿可直接回收。
+        // 判断是否可立即回收 PCB：
+        // 1. !pageDirectoryAddress → 是线程（无用户空间），直接回收。
+        // 2. parentPid == REAPER_PID → 是已被托管给 reaper 的孤儿进程，
+        //    其父进程已经退出，不会再有人 wait 它，由 schedule 兜底回收。
         if (!running->pageDirectoryAddress || running->parentPid == REAPER_PID)
         {
             releasePCB(running);
         }
+        // 普通子进程（pageDirectoryAddress 非空且 parentPid != 0）：
+        // 保留 PCB 在 allPrograms 链表中，等待父进程调用 wait 回收。
     }
 
     ListItem *item = readyPrograms.front();
@@ -524,12 +531,18 @@ void ProgramManager::exit(int ret)
     program->retValue = ret;
     program->status = ProgramStatus::DEAD;
 
-    // 父进程退出时，立即处理它遗留的僵尸/孤儿子进程。
+    // === 关键：父进程退出时，立即处理其所有子进程 ===
+    // 在释放自身内存资源之前，遍历 allPrograms 链表：
+    // - 已是 DEAD 的子进程（僵尸进程）→ 直接 releasePCB 回收
+    // - 仍存活的子进程（将成为孤儿）→ 将其 parentPid 改为 REAPER_PID(0) 托管给 reaper
+    // 这样保证不会有僵尸进程残留，也不会有孤儿进程失去回收者。
     adoptOrReleaseChildren(program);
 
     int *pageDir, *page;
     int paddr;
 
+    // === 释放进程自身的虚拟地址空间资源 ===
+    // 只有当 pageDirectoryAddress != 0 时才是用户进程（线程跳过）
     if (program->pageDirectoryAddress)
     {
         pageDir = (int *)program->pageDirectoryAddress;
@@ -565,28 +578,44 @@ void ProgramManager::exit(int ret)
         memoryManager.releasePages(AddressPoolType::KERNEL, (int)program->userVirtual.resources.bitmap, bitmapPages);
     }
 
+    // 调用 schedule() 切换到下一个就绪进程。
+    // 当前进程的 PCB 在 schedule() 中根据 pageDirectoryAddress/parentPid 决定是否回收：
+    // - 线程或 parentPid==REAPER_PID 的孤儿进程 → 直接 releasePCB
+    // - 普通子进程 → 保留，等待父进程 wait
     schedule();
 }
 
+// === 父进程退出时处理子进程：回收僵尸，托管孤儿 ===
+// 该函数在 exit() 中被调用，遍历 allPrograms 链表，
+// 找到所有 parentPid == 当前进程 pid 的子进程，分两种情况处理：
+//
+// 情况1 — 僵尸进程（child->status == DEAD）：
+//   父进程退出后再也没有人会 wait 这个子进程，
+//   其 PCB 将永远残留成为僵尸。此处直接 releasePCB 回收。
+//
+// 情况2 — 孤儿进程（child->status != DEAD）：
+//   父进程退出后子进程还活着，无人回收其退出后的 PCB。
+//   将子进程的 parentPid 改为 REAPER_PID(0)，
+//   此后子进程退出时，schedule() 检测到 parentPid==0 会自动回收。
 void ProgramManager::adoptOrReleaseChildren(PCB *parent)
 {
     ListItem *item = this->allPrograms.head.next;
 
     while (item)
     {
-        ListItem *next = item->next;
+        ListItem *next = item->next;  // 先保存 next，防止 releasePCB 后 item 失效
         PCB *child = ListItem2PCB(item, tagInAllList);
 
         if (child->parentPid == parent->pid)
         {
             if (child->status == ProgramStatus::DEAD)
             {
-                // 父进程退出时，已经 DEAD 的子进程再也不会被 wait，立即回收。
+                // 僵尸进程：父进程退出后无人回收，直接释放 PCB
                 releasePCB(child);
             }
             else
             {
-                // 仍存活的子进程转交给 reaper；后续退出时由 schedule 自动回收。
+                // 孤儿进程：托管给 REAPER_PID(0)，后续退出时由 schedule 自动回收
                 child->parentPid = REAPER_PID;
             }
         }

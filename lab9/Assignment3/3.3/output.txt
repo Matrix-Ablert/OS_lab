@@ -1,0 +1,74 @@
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0xC0010000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0xC00107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0xC0010F9C
+ATA disk driver initialized.
+start process
+ ____  _   _ __  __ __  __ _____ ____
+/ ___|| | | |  \/  |  \/  | ____|  _ \
+\___ \| | | | |\/| | |\/| |  _| | |_) |
+ ___) | |_| | |  | | |  | | |___|  _ <
+|____/ \___/|_|  |_|_|  |_|_____|_| \_\
+SUMMER OS - FAT16 File System Lab
+
+
+==============================================
+      Assignment3.3 renameFile Test
+==============================================
+
+[Step 1] Formatting file system...
+Formatting FAT16 filesystem...
+Format complete. FAT16 filesystem ready.
+
+[Step 2] Creating source and conflict files...
+  Created old.txt and other.txt
+
+[Step 3] Listing files before rename:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+old.txt  36  2
+other.txt  15  3
+-------------------------------
+Total: 2 file(s)
+
+[Step 4] Renaming old.txt to renamed.txt...
+  Rename success: old.txt -> renamed.txt
+
+[Step 5] Listing files after rename:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+renamed.txt  36  2
+other.txt  15  3
+-------------------------------
+Total: 2 file(s)
+
+[Step 6] Reading renamed file:
+  renamed.txt (36 bytes): rename keeps file data and FAT chain
+[Step 7] Reading old name should fail:
+Error: file 'old.txt' not found
+
+[Step 8] Renaming to an existing name should fail:
+Error: file 'other.txt' already exists
+  Conflict rename correctly failed
+
+[Step 9] Final file system info:
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 2 (1024 bytes)
+  Free clusters : 8188 (4192256 bytes)
+  Max files     : 512
+
+==============================================
+      Demo Complete!
+==============================================

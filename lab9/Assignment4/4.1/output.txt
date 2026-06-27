@@ -1,0 +1,74 @@
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0xC0010000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0xC00107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0xC0010F9C
+ATA disk driver initialized.
+start process
+ ____  _   _ __  __ __  __ _____ ____
+/ ___|| | | |  \/  |  \/  | ____|  _ \
+\___ \| | | | |\/| | |\/| |  _| | |_) |
+ ___) | |_| | |  | | |  | | |___|  _ <
+|____/ \___/|_|  |_|_|  |_|_____|_| \_\
+SUMMER OS - FAT16 File System Lab
+
+
+==============================================
+      Assignment4.1 Interactive Shell Test
+==============================================
+
+[Step 1] Formatting file system...
+Formatting FAT16 filesystem...
+Format complete. FAT16 filesystem ready.
+
+[Step 2] Running scripted commands through the shell parser:
+summer> help
+Commands: ls, cat <file>, touch <file>, write <file> <content>, rm <file>, info, format, help
+
+summer> touch note.txt
+
+summer> write note.txt hello-shell
+
+summer> ls
+FILENAME       SIZE      CLUSTER
+-------------------------------
+note.txt  11  2
+-------------------------------
+Total: 1 file(s)
+
+summer> cat note.txt
+hello-shell
+
+summer> info
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 1 (512 bytes)
+  Free clusters : 8189 (4192768 bytes)
+  Max files     : 512
+
+summer> rm note.txt
+
+summer> ls
+FILENAME       SIZE      CLUSTER
+-------------------------------
+-------------------------------
+Total: 0 file(s)
+
+summer> format
+Formatting FAT16 filesystem...
+Format complete. FAT16 filesystem ready.
+
+[Step 3] Keyboard IRQ1 and line buffer are installed for make run.
+==============================================
+      Demo Complete!
+==============================================

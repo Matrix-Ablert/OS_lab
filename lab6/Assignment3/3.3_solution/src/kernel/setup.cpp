@@ -37,9 +37,15 @@ void philosopher(void *arg)
         // ★ 获取"拿筷子许可"：最多允许4人同时尝试拿筷子
         limit.P();
 
+
         // 拿左筷子
         chopstick[left].P();
         printf("[P%d] picked up left chopstick[%d]\n", id, left);
+
+
+        // 巨大延时循环，确保跨越多个时间片
+        int deadlock_delay = 0x20000000;
+        while (deadlock_delay) --deadlock_delay;
 
         // 拿右筷子
         chopstick[right].P();
@@ -83,7 +89,7 @@ void first_thread(void *arg)
         chopstick[i].initialize(1);
     }
     // limit 初始值=4，即最多4人可同时持有筷子
-    limit.initialize(5);
+    limit.initialize(4);
 
     // 创建5个哲学家线程
     programManager.executeThread(philosopher, (void *)0, "P0", 1);

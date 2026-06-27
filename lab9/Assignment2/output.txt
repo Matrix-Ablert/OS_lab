@@ -1,0 +1,116 @@
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0xC0010000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0xC00107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0xC0010F9C
+ATA disk driver initialized.
+start process
+ ____  _   _ __  __ __  __ _____ ____
+/ ___|| | | |  \/  |  \/  | ____|  _ \
+\___ \| | | | |\/| | |\/| |  _| | |_) |
+ ___) | |_| | |  | | |  | | |___|  _ <
+|____/ \___/|_|  |_|_|  |_|_____|_| \_\
+SUMMER OS - FAT16 File System Lab
+
+
+==============================================
+      Assignment2 FAT16 File Operation Test
+==============================================
+
+[Step 1] Formatting file system...
+Formatting FAT16 filesystem...
+Format complete. FAT16 filesystem ready.
+
+[Step 2] File system info:
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 0 (0 bytes)
+  Free clusters : 8190 (4193280 bytes)
+  Max files     : 512
+
+[Step 3] Creating five files...
+  Created: alpha.txt
+  Created: beta.txt
+  Created: gamma.txt
+  Created: delta.txt
+  Created: echo.txt
+
+[Step 4] Writing different content to each file...
+  Wrote 25 bytes to alpha.txt
+  Wrote 25 bytes to beta.txt
+  Wrote 25 bytes to gamma.txt
+  Wrote 26 bytes to delta.txt
+  Wrote 24 bytes to echo.txt
+
+[Step 5] Listing files after initial writes:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+alpha.txt  25  2
+beta.txt  25  3
+gamma.txt  25  4
+delta.txt  26  5
+echo.txt  24  6
+-------------------------------
+Total: 5 file(s)
+
+[Step 6] Reading all files back:
+  alpha.txt (25 bytes): alpha: first file content
+  beta.txt (25 bytes): beta: second file content
+  gamma.txt (25 bytes): gamma: third file content
+  delta.txt (26 bytes): delta: fourth file content
+  echo.txt (24 bytes): echo: fifth file content
+
+[Step 7] Deleting beta.txt and delta.txt...
+  Deleted: beta.txt
+  Deleted: delta.txt
+
+[Step 8] Listing files after delete:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+alpha.txt  25  2
+gamma.txt  25  4
+echo.txt  24  6
+-------------------------------
+Total: 3 file(s)
+
+[Step 9] Recreating deleted names with new content...
+  Recreated beta.txt with 23 bytes
+  Recreated delta.txt with 24 bytes
+
+[Step 10] Listing files after recreate:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+alpha.txt  25  2
+beta.txt  23  3
+gamma.txt  25  4
+delta.txt  24  5
+echo.txt  24  6
+-------------------------------
+Total: 5 file(s)
+
+[Step 11] Reading recreated files:
+  beta.txt (23 bytes): beta: recreated content
+  delta.txt (24 bytes): delta: recreated content
+
+[Step 12] Final file system info:
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 5 (2560 bytes)
+  Free clusters : 8185 (4190720 bytes)
+  Max files     : 512
+
+==============================================
+      Demo Complete!
+==============================================

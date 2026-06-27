@@ -69,6 +69,8 @@ public:
     int wait(int *retval);
 
     // 父进程退出时处理子进程：回收僵尸，托管孤儿
+    // - 已是 DEAD 的子进程（僵尸）→ releasePCB 立即回收
+    // - 仍存活的子进程（孤儿）→ parentPid 改为 REAPER_PID(0)，由 schedule 兜底回收
     void adoptOrReleaseChildren(PCB *parent);
 
 };

@@ -1,0 +1,75 @@
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0xC0010000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0xC00107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0xC0010F9C
+ATA disk driver initialized.
+start process
+ ____  _   _ __  __ __  __ _____ ____
+/ ___|| | | |  \/  |  \/  | ____|  _ \
+\___ \| | | | |\/| | |\/| |  _| | |_) |
+ ___) | |_| | |  | | |  | | |___|  _ <
+|____/ \___/|_|  |_|_|  |_|_____|_| \_\
+SUMMER OS - FAT16 File System Lab
+
+
+==============================================
+      Assignment4.2 Subdirectory Test
+==============================================
+
+[Step 1] Formatting file system...
+Formatting FAT16 filesystem...
+Format complete. FAT16 filesystem ready.
+
+[Step 2] Creating directory docs...
+  mkdir docs
+
+[Step 3] Creating and writing docs/readme.txt...
+  wrote docs/readme.txt (25 bytes)
+
+[Step 4] Listing root directory:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+docs  0  2
+-------------------------------
+Total: 1 file(s)
+
+[Step 5] Listing docs directory:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+.  0  2
+..  0  0
+readme.txt  25  3
+-------------------------------
+Total: 3 file(s)
+
+[Step 6] Reading docs/readme.txt:
+  docs/readme.txt (25 bytes): hello from a subdirectory
+
+[Step 7] rmdir docs should fail while not empty:
+Error: directory 'docs' not empty
+
+[Step 8] Delete child file and remove docs:
+  deleted docs/readme.txt
+  rmdir docs
+
+[Step 9] Final file system info:
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 0 (0 bytes)
+  Free clusters : 8190 (4193280 bytes)
+  Max files     : 512
+
+==============================================
+      Demo Complete!
+==============================================

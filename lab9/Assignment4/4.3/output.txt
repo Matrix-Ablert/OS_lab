@@ -1,0 +1,66 @@
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0xC0010000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0xC00107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0xC0010F9C
+ATA disk driver initialized.
+start process
+ ____  _   _ __  __ __  __ _____ ____
+/ ___|| | | |  \/  |  \/  | ____|  _ \
+\___ \| | | | |\/| | |\/| |  _| | |_) |
+ ___) | |_| | |  | | |  | | |___|  _ <
+|____/ \___/|_|  |_|_|  |_|_____|_| \_\
+SUMMER OS - FAT16 File System Lab
+
+
+==============================================
+      Assignment4.3 Large File and Batch I/O Test
+==============================================
+
+[Step 1] Formatting file system...
+Formatting FAT16 filesystem...
+Format complete. FAT16 filesystem ready.
+
+[Step 2] Normal write/read of a 1500-byte file...
+  normal write commands: 39
+  normal write word IO : 9984
+  normal read bytes    : 1500
+  normal read commands : 5
+  normal read word IO  : 1280
+
+[Step 3] Optimized write/read of another 1500-byte file...
+  optimized write commands: 1
+  optimized write word IO : 768
+  optimized read bytes    : 1500
+  optimized read commands : 4
+  optimized read word IO  : 1536
+  content check first/last ASCII: 65 82
+
+[Step 4] Listing files:
+FILENAME       SIZE      CLUSTER
+-------------------------------
+normal.bin  1500  2
+opt.bin  1500  5
+-------------------------------
+Total: 2 file(s)
+
+[Step 5] Final file system info:
+=== FAT16 Filesystem Info ===
+  Start sector  : 500
+  Cluster size  : 512 bytes
+  Total clusters: 8190
+  Used clusters : 6 (3072 bytes)
+  Free clusters : 8184 (4190208 bytes)
+  Max files     : 512
+
+==============================================
+      Demo Complete!
+==============================================

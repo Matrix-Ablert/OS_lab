@@ -1,0 +1,37 @@
+total memory: 133038080 bytes ( 126 MB )
+kernel pool
+    start address: 0x200000
+    total pages: 15984 ( 62 MB )
+    bitmap start address: 0xC0010000
+user pool
+    start address: 0x4070000
+    total pages: 15984 ( 62 MB )
+    bit map start address: 0xC00107CE
+kernel virtual pool
+    start address: 0xC0100000
+    total pages: 15984  ( 62 MB ) 
+    bit map start address: 0xC0010F9C
+ATA disk driver initialized.
+start process
+
+==============================================
+      Project2 malloc/free/realloc Test
+==============================================
+
+[PASS] malloc(0) returns null
+[PASS] small block 16 bytes
+[PASS] small block 17 bytes
+[PASS] small block 64 bytes
+[PASS] small block 1000 bytes
+[PASS] small block 1024 bytes
+[PASS] large block 1025 bytes
+[PASS] large block 4096 bytes
+[PASS] large block 6000 bytes
+[PASS] free reuses returned block without data corruption
+[PASS] arena page is reusable after all blocks are freed
+[PASS] realloc grows and preserves old data
+[PASS] realloc shrinks in place and preserves prefix
+[PASS] realloc null and zero-size cases
+
+Summary: 14/14 tests passed
+==============================================
